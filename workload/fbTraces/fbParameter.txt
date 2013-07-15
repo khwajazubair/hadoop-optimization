@@ -1,0 +1,24 @@
+java GenerateReplayScript FB-2009_samples_24_times_1hr_0_first50jobs.tsv 600 2 67108864 10 scriptsTest /home/ubuntu/workGenInput workGenOutputTest 67108864 /home/ubuntu/workGenLogs hadoop /home/ubuntu/WorkGen.jar '/home/ubuntu/hadoop-3.0.0-SNAPSHOT/myconf/workGenKeyValue_conf.xsl'
+
+javac -classpath ${HADOOP_HDFS_HOME}/share/hadoop/common/\*:${HADOOP_HDFS_HOME}/share/hadoop/mapreduce/\*:${HADOOP_HDFS_HOME}/share/hadoop/mapreduce/lib/\* -d hdfsWrite HDFSWrite.java
+
+javac -classpath ${HADOOP_HDFS_HOME}/share/hadoop/common/\*:${HADOOP_HDFS_HOME}/share/hadoop/mapreduce/\*:${HADOOP_HDFS_HOME}/share/hadoop/mapreduce/lib/\* -d workGen WorkGen.java
+
+
+
+
+
+
+hadoop jar HDFSWrite.jar org.apache.hadoop.examples.HDFSWrite -conf hadoop-3.0.0-SNAPSHOT/myconf/randomwriter_conf.xsl /home/ubuntu/workGenInputcd scriptsTest;./run-jobs-all.sh
+
+
+
+
+
+
+
+
+
+
+
+
