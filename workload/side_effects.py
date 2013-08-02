@@ -16,7 +16,7 @@ NODE_LIST = ["loadgen162", "loadgen163", "loadgen164", "loadgen165", "loadgen166
 
 def run_hadoop_baseline(pm, nodes_used, workload, schedule):
     ''' This is a single run to gather the baseline resource
-        and performance profile for Cassandra  '''
+        and performance profile for hadoop  '''
 
     ###### SPAWN VMS ##########
     hadoop_utils.spawn_hadoop_vms(pm["hadoop:num_hadoop"],
@@ -29,25 +29,25 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
     hadoopStartProcess = Process(target=hadoop_utils.setup_hadoop, args=(pm["hadoop:num_hadoop"], pm["exp_number"], schedule))
     hadoopStartProcess.start()
     hadoopStartProcess.join()
-    time.sleep(120)
+    #time.sleep(120)
 
     ####### LOAD DATA ##########
 
     hadoopLoadProcess = Process(target=hadoop_utils.hadoop_load_workload, args=(pm, pm["exp_number"], workload ))
     hadoopLoadProcess.start()
     hadoopLoadProcess.join()
-    time.sleep(30)
+    #time.sleep(30)
 
     ####### RUN WORKLOAD ##########
     run_mpstat(nodes_used, pm["exp_number"])
     run_bwmon(nodes_used, pm["exp_number"])
     run_iostat(nodes_used, pm["exp_number"])
     hadoopRunProcess = Process(target=hadoop_utils.hadoop_run_workload, args=(pm, pm["exp_number"], workload))
-    time.sleep(40)
+    #time.sleep(40)
 
     hadoopRunProcess.start()
     hadoopRunProcess.join()
-    time.sleep(180)
+    #time.sleep(180)
     retreive_mpstat_results(nodes_used, pm["exp_number"])
     retreive_bwmon_results(nodes_used, pm["exp_number"])
     retreive_iostat_results(nodes_used, pm["exp_number"])
@@ -58,13 +58,15 @@ def baseline_hadoop_experiment(exp_number):
     pm = {}
     pm["exp_number"] = exp_number
     workloads = ['terasort']
-    schedular = ['capacity', 'fair']
+    schedular = ['capacity']
     for run_no in range(1, 2):
     	for load in workloads:
              for schedule in schedular:
-        	    files = glob.glob('runs/*')
-           	    for f in files:
-                        os.remove(f)
+
+                    files = glob.glob('runs/*')
+                    for f in files:
+                        os.remove(f) 
+ 
                     ################# One-to-One #############
                     pm["hadoop:num_hadoop"] = len(NODE_LIST)
                     pm["hadoop:placement"] = STRATEGIES["round-robin"](NODE_LIST, len(NODE_LIST))
@@ -80,9 +82,9 @@ def baseline_hadoop_experiment(exp_number):
                     files = glob.glob('runs/*')
 
                     for f in files:
-                        os.remove(f)
+                        os.remove(f) 
 
  
 if __name__ == '__main__':
-    exp_number = 120 # 12 == all quorum, 13 == all one read=one
+    exp_number = 70 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

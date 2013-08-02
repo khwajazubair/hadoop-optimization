@@ -1,7 +1,9 @@
 from interact import *
 from placement import *
+import interact
 import time
 import sys
+from multiprocessing import Process
 
 
 def spawn_hadoop_vms(num_hadoop,
@@ -26,9 +28,10 @@ def spawn_hadoop_vms(num_hadoop,
     sync_glance_index()
     sync_nova_list()
 
-    nova_boot(IMAGE_MAP["hadoop-nn"],
+    nova_boot(IMAGE_MAP["hadoop-nn-v2"],
               HADOOP_HOSTNAME_PREFIX + "-1", 4,
               "--availability-zone=nova:%s" % placement_map[1])
+    #time.sleep(60)
 
     for i in range(2, num_hadoop + 1):
         nova_boot(IMAGE_MAP["hadoop-dn-v2"],
@@ -116,11 +119,13 @@ def hadoop_load_workload(pm, exp_number, workload):
 
     sync_nova_list()
     load_command = ""
+    workload_set=int(6)
+
     if (workload == "terasort"):
        print "Loading Hadoop teraSort"
        load_command = "hadoop jar \
        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar \
-               teragen 50000000 /user/hduser/terasort-input"
+               teragen 5000 /user/hduser/terasort-input-"
    
     elif (workload == "fb"):
 
@@ -139,8 +144,11 @@ def hadoop_load_workload(pm, exp_number, workload):
     else: 
         print "Hadoop Load Failed, workload not recognized (%s)" % (workload)
         sys.exit(1)
-
-    execute_on_vm(get_ip_for_instance(HADOOP_NN), load_command)
+    #number of workloads    
+    for i in range (1, workload_set):
+        p= str(i)
+        load_data=load_command+p+";" 
+        execute_on_vm(get_ip_for_instance(HADOOP_NN), load_data)
     print "Hadoop load terminating after time: " + str(time.time() - time_before)
 
 
@@ -153,8 +161,8 @@ def hadoop_run_workload(pm, exp_number, workload):
     run_command = ""
     if (workload == "terasort"): 
        print "Running "+workload+" workload."
-       run_command = "hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort \
-       /user/hduser/terasort-input /user/hduser/terasort-output &> run.out;python parse_terasort_logs.py"
+       run_part1 = "hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort \
+       /user/hduser/terasort-input-"
    
     elif (workload == "fb"):
        print "Running " + workload + " workload."
@@ -164,13 +172,32 @@ def hadoop_run_workload(pm, exp_number, workload):
     else:
        print "Running Hadoop Workload " + workload + " Failed."
        sys.exit(1)
+    
+    number_of_runs = int(6)
+    run_part2= " /user/hduser/terasort-output-"
+    run_part3= "&> logs/run.out-"
 
-    execute_on_vm(get_ip_for_instance(HADOOP_NN), run_command)
+    IP=get_ip_for_instance(HADOOP_NN)
+    processList =[]   
+    
+    for i in range(1, number_of_runs):
+        p=str(i)
+        run_command=run_part1+p+run_part2+p+run_part3+p+";"        
+        run_process= Process(target=interact.execute_on_vm, args=(IP, run_command))
+        run_process.start()
+        processList.append(run_process)
+    
+    for process in processList:
+        process.join()
 
-    scp_file_from_host("run.out", "runs/run.out.%s.%s" % (exp_number, time_before), get_ip_for_instance(HADOOP_NN))
-    scp_file_from_host("logs_summary.out", "runs/logs_summary.out%s.%s" % (exp_number, time_before), get_ip_for_instance(HADOOP_NN))
+    execute_on_vm(IP, "python parse_terasort_logs.py;")
+
+    #scp_file_from_host("run.out", "runs/run.out.%s.%s" % (exp_number, time_before), IP)
+    scp_file_from_host("logs_summary.out", "runs/logs_summary.out%s.%s" % (exp_number, time_before), IP)
     #scp_file_from_host("hadoop-3.0.0-SNAMPSHOT/logs/facebook_log.tsv", "runs/facebook_log.tsv.%s.%s" % (exp_number, time_before), get_ip_for_instance(HADOOP_NN))
 
-    scp_file_from_host("hadoop-3.0.0-SNAPSHOT/logs/*history*.log", "runs/history.%s.%s" % (exp_number, time_before), get_ip_for_instance(HADOOP_NN))
+    #scp_file_from_host("hadoop-3.0.0-SNAPSHOT/logs/*history*.log", "runs/history.%s.%s" % (exp_number, time_before), IP)
+    scp_folder_from_host("hadoop-3.0.0-SNAPSHOT/logs/*", "runs/",IP)
+    scp_folder_from_host("logs/*", "runs/",IP)
 
     print "Hadoop run terminating after time: " + str(time.time() - time_before)
