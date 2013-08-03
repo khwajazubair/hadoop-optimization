@@ -125,7 +125,7 @@ def hadoop_load_workload(pm, exp_number, workload):
        print "Loading Hadoop teraSort"
        load_command = "hadoop jar \
        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar \
-               teragen 5000 /user/hduser/terasort-input-"
+               teragen 53687091 /user/hduser/terasort-input-"
    
     elif (workload == "fb"):
 
