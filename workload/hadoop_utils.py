@@ -99,9 +99,20 @@ def setup_hadoop(num_hadoop,
           print "fair schedular is selected"
     elif (schedule =="capacity"):
           print "Default capacity schedular is selected"
+ 
+    
     else:
           print" Schedular not specified";
           sys.exit(1) 
+
+
+
+
+    if("mapred-site.xml" in pm):
+        scp_file_to_host(pm["mapred-site.xml"], get_ip_for_instance(HADOOP_NN)
+                     + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/mapred-site.xml")
+
+        
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "hdfs namenode -format")
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "~/hadoop-3.0.0-SNAPSHOT/sbin/hadoop-daemon.sh start namenode")
     time.sleep(5)

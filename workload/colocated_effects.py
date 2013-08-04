@@ -56,19 +56,21 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
 def baseline_hadoop_experiment(exp_number):
 
     pm = {}
-    index = int(0)
+    #index = int(0)
     pm["exp_number"] = exp_number
-    workloads = ['terasort']
+    #workloads = ['terasort']
+    load = "terasort"
     schedular = ['capacity','fair']
     for schedule in schedular:
-    	for load in workloads:
+    	 for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
              for i in range (1,6):
         	    files = glob.glob('runs/*')
            	    for f in files:
                         os.remove(f)
                     ################# One-to-One #############
                     pm["hadoop:num_hadoop"] = len(NODE_LIST)
-                    pm["hadoop:schedular"]  = schedular[index]
+                    pm["hadoop:schedular"]  = schedule
+                    pm["mapred-site.xml"] = hadoop_spec
                     #pm["hadoop:placement"] = STRATEGIES["round-robin"](NODE_LIST, len(NODE_LIST))
                     pm["hadoop:placement"] = {1: "loadgen162", 2: "loadgen163", 3: "loadgen163", 4: "loadgen164", 5: "loadgen164",\
                                               6: "loadgen165", 7 :"loadgen165",} 
@@ -78,16 +80,21 @@ def baseline_hadoop_experiment(exp_number):
                     config_dump = open('runs/conf.exp', 'w')
                     config_dump.write(simplejson.dumps(pm, indent=4))
                     config_dump.close()
+                    schedule_name= str(schedule)
+                    if pm["mapred-site.xml"] == "mapred-site-spec-false.xml" :
+                        spec = "spec-false"
+                    else:
+                        spec = "spec-true"
 
-                    shutil.copytree("runs", "runs-%s-%s-%s" % ("baseline-hadoop-experiment", exp_number, int(time.time())))
+                    shutil.copytree("runs", "runs-%s-%s-%s" % ("colocated-hadoop-experiment-"+schedule_name+"-"+spec, exp_number, int(time.time())))
 
                     files = glob.glob('runs/*')
 
                     for f in files:
                         os.remove(f)
-        index=index+1
+        #index=index+1
         
  
 if __name__ == '__main__':
-    exp_number = 81 # 12 == all quorum, 13 == all one read=one
+    exp_number = 90 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)
