@@ -26,7 +26,7 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
 
     ####### START PROCESSES ##########
 
-    hadoopStartProcess = Process(target=hadoop_utils.setup_hadoop, args=(pm["hadoop:num_hadoop"], pm["exp_number"], schedule))
+    hadoopStartProcess = Process(target=hadoop_utils.setup_hadoop, args=(pm["hadoop:num_hadoop"], pm["exp_number"],pm, schedule))
     hadoopStartProcess.start()
     hadoopStartProcess.join()
     #time.sleep(120)

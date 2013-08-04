@@ -70,7 +70,7 @@ def spawn_hadoop_vms(num_hadoop,
 
 
 def setup_hadoop(num_hadoop,
-                 exp_number, schedule):
+                 exp_number,pm, schedule):
     """ Spawns Hadoop VMs according to placement_map """
 
     HADOOP_HOSTNAME_PREFIX = "hadoop-%s" % exp_number
@@ -108,9 +108,10 @@ def setup_hadoop(num_hadoop,
 
 
 
-    if("mapred-site.xml" in pm):
-        scp_file_to_host(pm["mapred-site.xml"], get_ip_for_instance(HADOOP_NN)
+    
+    scp_file_to_host(pm["mapred-site.xml"], get_ip_for_instance(HADOOP_NN)
                      + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/mapred-site.xml")
+
 
         
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "hdfs namenode -format")
