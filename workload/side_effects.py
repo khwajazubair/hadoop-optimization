@@ -61,9 +61,10 @@ def baseline_hadoop_experiment(exp_number):
     index = int(0)
     pm["exp_number"] = exp_number
     workloads = ['terasort']
+    load = "terasort"
     schedular = ['capacity', 'fair']
     for schedule in schedular:
-    	for load in workloads:
+    	for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
              for run_no in range(1,6):
 
                     files = glob.glob('runs/*')
@@ -72,6 +73,8 @@ def baseline_hadoop_experiment(exp_number):
  
                     ################# One-to-One #############
                     pm["hadoop:schedular"]  = schedular[index]
+                    pm["hadoop:schedular"]  = schedule
+                    pm["mapred-site.xml"] = hadoop_spec
                     pm["hadoop:num_hadoop"] = len(NODE_LIST)
                     pm["hadoop:placement"] = STRATEGIES["round-robin"](NODE_LIST, len(NODE_LIST))
                     run_hadoop_baseline(pm, NODE_LIST, load, schedule)
@@ -80,8 +83,15 @@ def baseline_hadoop_experiment(exp_number):
                     config_dump = open('runs/conf.exp', 'w')
                     config_dump.write(simplejson.dumps(pm, indent=4))
                     config_dump.close()
+                    schedule_name= str(schedule)
+                    if pm["mapred-site.xml"] == "mapred-site-spec-false.xml" :
+                        spec = "spec-false"
+                    else:
+                        spec = "spec-true"
 
-                    shutil.copytree("runs", "runs-%s-%s-%s" % ("baseline-hadoop-experiment", exp_number, int(time.time())))
+
+                    shutil.copytree("runs", "hadoop-baseline-runs/runs-%s-%s-%s" % ("baseline-hadoop-experiment"+schedule_name+"-"+spec, exp_number,
+                                     int(time.time())))
 
                     files = glob.glob('runs/*')
 
@@ -91,5 +101,5 @@ def baseline_hadoop_experiment(exp_number):
 
  
 if __name__ == '__main__':
-    exp_number = 80 # 12 == all quorum, 13 == all one read=one
+    exp_number = 100 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

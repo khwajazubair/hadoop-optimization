@@ -92,11 +92,12 @@ def setup_hadoop(num_hadoop,
                      + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/slaves")
    
     if (schedule == "fair"):
+          print "fair schedular is selected"
           scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/yarn-site.xml", get_ip_for_instance(HADOOP_NN)
                      + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop")
           scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/fair-schedular.xml", get_ip_for_instance(HADOOP_NN)
                      + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop")
-          print "fair schedular is selected"
+          
     elif (schedule =="capacity"):
           print "Default capacity schedular is selected"
  
