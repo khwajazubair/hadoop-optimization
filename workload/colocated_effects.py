@@ -57,6 +57,7 @@ def baseline_hadoop_experiment(exp_number):
 
     pm = {}
     #index = int(0)
+    reducer = int(5)
     pm["exp_number"] = exp_number
     #workloads = ['terasort']
     load = "terasort"
@@ -68,6 +69,7 @@ def baseline_hadoop_experiment(exp_number):
            	    for f in files:
                         os.remove(f)
                     ################# One-to-One #############
+                    pm["hadoop:reducer"]  = reducer
                     pm["hadoop:num_hadoop"] = len(NODE_LIST)
                     pm["hadoop:schedular"]  = schedule
                     pm["mapred-site.xml"] = hadoop_spec
@@ -86,7 +88,8 @@ def baseline_hadoop_experiment(exp_number):
                     else:
                         spec = "spec-true"
 
-                    shutil.copytree("runs", "hadoop-colocated-runs/runs-%s-%s-%s" % ("colocated-hadoop-experiment-"+schedule_name+"-"+spec, exp_number, int(time.time())))
+                    shutil.copytree("runs", "hadoop-colocated-runs/runs-%s-%s-%s" % ("colocated-hadoop-experiment-"+schedule_name+"-"\
+                        +spec+"-"+str(reducer), exp_number, int(time.time())))
 
                     files = glob.glob('runs/*')
 
