@@ -99,5 +99,5 @@ def baseline_hadoop_experiment(exp_number):
         
  
 if __name__ == '__main__':
-    exp_number = 110 # 12 == all quorum, 13 == all one read=one
+    exp_number = 210 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

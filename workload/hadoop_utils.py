@@ -169,13 +169,15 @@ def hadoop_run_workload(pm, exp_number, workload):
     time_before = time.time()
     HADOOP_HOSTNAME_PREFIX = "hadoop-%s" % exp_number
     HADOOP_NN = HADOOP_HOSTNAME_PREFIX + "-1"
+    
+    num_reducer= pm["hadoop:reducer"]
 
     sync_nova_list()
     run_command = ""
     if (workload == "terasort"): 
        print "Running "+workload+" workload."
        run_part1 = "hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort \
-       /user/hduser/terasort-input-"
+        -D mapred.reduce.tasks="+str(num_reducer)+"  /user/hduser/terasort-input-"
    
     elif (workload == "fb"):
        print "Running " + workload + " workload."
