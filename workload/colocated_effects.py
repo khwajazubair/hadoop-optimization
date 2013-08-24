@@ -20,8 +20,8 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
 
     ###### SPAWN VMS ##########
     hadoop_utils.spawn_hadoop_vms(pm["hadoop:num_hadoop"],
-                     pm["exp_number"],
-                     pm["hadoop:placement"])
+                        pm["exp_number"],
+                        pm["hadoop:placement"])
     time.sleep(120)
 
     ####### START PROCESSES ##########
@@ -29,14 +29,14 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
     hadoopStartProcess = Process(target=hadoop_utils.setup_hadoop, args=(pm["hadoop:num_hadoop"], pm["exp_number"],pm, schedule))
     hadoopStartProcess.start()
     hadoopStartProcess.join()
-    time.sleep(120)
+    #time.sleep(120)
 
     ####### LOAD DATA ##########
 
     hadoopLoadProcess = Process(target=hadoop_utils.hadoop_load_workload, args=(pm, pm["exp_number"], workload ))
     hadoopLoadProcess.start()
     hadoopLoadProcess.join()
-    time.sleep(30)
+    #time.sleep(30)
 
     ####### RUN WORKLOAD ##########
     run_mpstat(nodes_used, pm["exp_number"])
@@ -53,21 +53,44 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
     retreive_iostat_results(nodes_used, pm["exp_number"])
 
 
+def delete_hadoop_vms(num_hadoop,
+                     exp_number,
+                     placement_map):
+    """ Delete Hadoop VMs according to placement_map """
+
+    HADOOP_HOSTNAME_PREFIX = "hadoop-%s" % exp_number
+
+    sync_glance_index()
+    sync_nova_list()
+
+    #
+    # Delete all existing instances of cassandra and ycsb
+    #
+    for i in range(1, num_hadoop + 1):
+        if (HADOOP_HOSTNAME_PREFIX + "-%s" % i in ACTIVE_MAP):
+            nova_delete(ACTIVE_MAP[HADOOP_HOSTNAME_PREFIX + "-%s" % i].id)
+
+    time.sleep(20)
+
 def baseline_hadoop_experiment(exp_number):
 
     pm = {}
     #index = int(0)
-    reducer = int(5)
+    reducer = int(10)
     pm["exp_number"] = exp_number
     #workloads = ['terasort']
     load = "terasort"
     schedular = ['capacity','fair']
     for schedule in schedular:
-    	 for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
-             for i in range (1,6):
-        	    files = glob.glob('runs/*')
-           	    for f in files:
-                        os.remove(f)
+                
+            for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
+                for i in range (1,6):
+                    try:
+                        shutil.rmtree("runs")
+                    except OSError:
+                            print "runs/ folder doesn't exist. Continuing."
+
+                    os.mkdir("runs")
                     ################# One-to-One #############
                     pm["hadoop:reducer"]  = reducer
                     pm["hadoop:num_hadoop"] = len(NODE_LIST)
@@ -88,16 +111,16 @@ def baseline_hadoop_experiment(exp_number):
                     else:
                         spec = "spec-true"
 
-                    shutil.copytree("runs", "hadoop-colocated-runs/runs-%s-%s-%s" % ("colocated-hadoop-experiment-"+schedule_name+"-"\
-                        +spec+"-"+str(reducer), exp_number, int(time.time())))
+                    shutil.copytree("runs", "exp_4/hadoop_co_dn_4/runs-%s-%s-%s" % ("col-dn-hadoop-exp-"+str(i)+"-"+schedule_name+"-"\
+                        +spec+"-"+str(reducer), pm["exp_number"], int(time.time())))
 
-                    files = glob.glob('runs/*')
-
-                    for f in files:
-                        os.remove(f)
+                    shutil.rmtree("runs")
+                    delete_hadoop_vms(pm["hadoop:num_hadoop"],
+                        pm["exp_number"],
+                        pm["hadoop:placement"])
         #index=index+1
         
  
 if __name__ == '__main__':
-    exp_number = 210 # 12 == all quorum, 13 == all one read=one
+    exp_number = 999 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

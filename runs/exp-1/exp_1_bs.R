@@ -11,6 +11,7 @@ library(ggplot2)
 
 exp1_bs = read.table("exp_1_bs.csv", header=TRUE)
 df <- data.frame(exp1_bs)
+ct=ft=cf=ff=0
 
 
 df1 <- df[, c(4, 15, 16, 17,18)]
@@ -33,10 +34,11 @@ for(i in 1:5){
 }
 
 
+
 #store all capcity false scheduler to 'cpf' matrix
 for(i in 1:5){
 	run = paste('r',i,sep="")
-	
+		
 	run = df1[which(df1$r==i & df1$sp=="f" & df1$s=="cp"), ]
 	run = run[, c(1)]
 	cpf <- rbind(cpf,c(run))
@@ -93,39 +95,53 @@ fsf <- fsf[!is.na(fsf[,1]),, drop = FALSE]
 #bs_ft_1=read.csv("bs_ft_1.csv", header=FALSE)
 
 run_no=1
+cptKTasks=0
+fstKTasks=0
 
-for ( i in 1:5){
+for (i in 1:5){
 
-	#declar variable names for each run
-	cptx=paste("cpt",i,sep="")
-	cpfx=paste("cpf",i,sep="")
-	fstx=paste("fst",i,sep="")
-	fsfx=paste("fsf",i,sep="")
+
+	for ( i in 1:5){
+
+		#declar variable names for each run
+		cptx=paste("cpt",i,sep="")
+		cpfx=paste("cpf",i,sep="")
+		fstx=paste("fst",i,sep="")
+		fsfx=paste("fsf",i,sep="")
     
-    #read matrix and store in variable
-	cptx=cpt[i,1:5]
-	cpfx=cpf[i,1:5]
-	fstx=fst[i,1:5]
-	fsfx=fsf[i,1:5]
+   	 	#read matrix and store in variable
+		cptx=cpt[i,1:5]
+		cpfx=cpf[i,1:5]
+		fstx=fst[i,1:5]
+		fsfx=fsf[i,1:5]
 
-	if(i==run_no){
+		#cptKTasks= cptKTasks + sum(cptx) 
+		#fstKTasks= fstKTasks + sum(fstx)
+		ct = ct + sum(cptx)
+		ft = ft + sum(fstx)
+		cf = cf + sum(cpfx)
+		ff = ff + sum(fsfx)
 
-		#create matrix for ploting
-		pl = matrix(ncol=5, byrow=TRUE)
+ 
 
-		pl <- rbind(pl,c(cptx))
-		pl <- rbind(pl,c(fstx))
-		pl <- rbind(pl,c(cpfx))
-		pl <- rbind(pl,c(fsfx))
+		if(i==run_no){
 
-		#cpt <- cpt[!is.na(pl[,1]),, drop = FALSE]
+			#create matrix for ploting
+			pl = matrix(ncol=5, byrow=TRUE)
+
+			pl <- rbind(pl,c(cptx))
+			#pl <- rbind(pl,c(fstx))
+			pl <- rbind(pl,c(cpfx))
+			#pl <- rbind(pl,c(fsfx))
+
+			pl <- pl[!is.na(pl[,1]),, drop = FALSE]
 
 
-		#print(pl)
-		#barplot(pl,beside=TRUE,xlab="experiment set", ylab="job completion time(sec)",xlim=c(0,30),main="Baseline Bar plot")
+			#print(pl)
+			#barplot(pl,beside=TRUE,xlab="experiment set", ylab="job completion time(sec)",xlim=c(0,30),main="Baseline Bar plot")
 
 		#print("cpt")
-		#print(summary(cptx))
+		#print(summary(pl))
 		#print("fst")
 		#print(summary(fstx))
 
@@ -133,13 +149,15 @@ for ( i in 1:5){
 		#print(summary(cpfx))
 		#print("fsf")
 		#print(summary(fsfx))
+		}
 	}
 
 }
 
-
-
-print(summary(cpt))
+#print(cptKTasks)
+#print(fstKTasks)
+total_time <- c(ct,ft,cf,ff)
+barplot(total_time,beside=TRUE,xlab="experiment set", ylab="job completion time(sec)",xlim=c(0,30),main="Baseline Bar plot")
 
 
 #counts <- table(cpt, fst)

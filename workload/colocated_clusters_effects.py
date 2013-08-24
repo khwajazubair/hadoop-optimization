@@ -62,14 +62,10 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
     loadProcessList = []
     hadoopLoadProcess1 = Process(target=hadoop_utils.hadoop_load_workload, args=(pm, pm["exp_number"], workload ))
     hadoopLoadProcess1.start()
-    #hadoopLoadProcess.join()
-    #time.sleep(30)
     loadProcessList.append(hadoopLoadProcess1)
     
     hadoopLoadProcess2 = Process(target=hadoop_utils_2.hadoop_load_workload, args=(pm, pm["exp_number"]+1, workload ))
     hadoopLoadProcess2.start()
-    #hadoopLoadProcess.join()
-    #time.sleep(30)
     loadProcessList.append(hadoopLoadProcess2)
 
     for process in loadProcessList:
@@ -85,26 +81,46 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
 
     runProcessList = [] 
     hadoopRunProcess1 = Process(target=hadoop_utils.hadoop_run_workload, args=(pm, pm["exp_number"], workload))
-    #time.sleep(40)
-
     hadoopRunProcess1.start()
     runProcessList.append(hadoopRunProcess1)
 
 
     hadoopRunProcess2 = Process(target=hadoop_utils_2.hadoop_run_workload, args=(pm, pm["exp_number"]+1, workload))
-    #time.sleep(40)
-
     hadoopRunProcess2.start()
     runProcessList.append(hadoopRunProcess2)
 
     for process in runProcessList:
         process.join()
 
-    #hadoopRunProcess.join()
-    #time.sleep(180)
+   
     retreive_mpstat_results(nodes_used, pm["exp_number"])
     retreive_bwmon_results(nodes_used, pm["exp_number"])
     retreive_iostat_results(nodes_used, pm["exp_number"])
+
+
+def delete_hadoop_vms(num_hadoop,
+                     exp_number,
+                     placement_map):
+    """ Delete Hadoop VMs according to placement_map """
+
+    #HADOOP_HOSTNAME_PREFIX = "hadoop-%s" % exp_number
+
+    sync_glance_index()
+    sync_nova_list()
+
+    #
+    # Delete all existing instances of cassandra and ycsb
+    #
+    for p in range(1,3):
+        HADOOP_HOSTNAME_PREFIX = "hadoop-%s" % exp_number
+        for i in range(1, num_hadoop + 1):
+            if (HADOOP_HOSTNAME_PREFIX + "-%s" % i in ACTIVE_MAP):
+                nova_delete(ACTIVE_MAP[HADOOP_HOSTNAME_PREFIX + "-%s" % i].id)
+
+            time.sleep(20)
+
+        #Next Experiment    
+        exp_number = exp_number + 1
 
 
 def baseline_hadoop_experiment(exp_number):
@@ -114,22 +130,26 @@ def baseline_hadoop_experiment(exp_number):
     pm = {}
     reducer = int(1)
     pm["exp_number"] = exp_number
-    
 
     workloads = ['terasort']
     load = "terasort"
     schedular = ['capacity', 'fair']
     for schedule in schedular:
-    	for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
-             for run_no in range(1,6):
+    	    for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
+                for run_no in range(1,6):
+                    try:
+                        shutil.rmtree("runs")
+                    except OSError:
+                            print "runs/ folder doesn't exist. Continuing."
 
-                    files = glob.glob('runs/*')
-                    for f in files:
-                        os.remove(f) 
+                    try:
+                        shutil.rmtree("runs_2")
+                    except OSError:
+                            print "runs_2/ folder doesn't exist. Continuing."
 
-                    files = glob.glob('runs_2/*')
-                    for f in files:
-                        os.remove(f)  
+                    os.mkdir("runs")
+                    os.mkdir("runs_2")
+
  
                     ################# One-to-One #############
                     pm["hadoop:reducer"]  = reducer
@@ -143,6 +163,11 @@ def baseline_hadoop_experiment(exp_number):
                     config_dump = open('runs/conf.exp', 'w')
                     config_dump.write(simplejson.dumps(pm, indent=4))
                     config_dump.close()
+
+                    config_dump = open('runs_2/conf.exp', 'w')
+                    config_dump.write(simplejson.dumps(pm, indent=4))
+                    config_dump.close()
+
                     schedule_name= str(schedule)
                     if pm["mapred-site.xml"] == "mapred-site-spec-false.xml" :
                         spec = "spec-false"
@@ -150,24 +175,24 @@ def baseline_hadoop_experiment(exp_number):
                         spec = "spec-true"
 
 
-                    shutil.copytree("runs", "hadoop-colocate-clusters-runs/runs-%s-%s-%s" % ("colc_clusters-hadoop-experiment-"+schedule_name+"-"\
-                                    +spec+"-"+str(reducer), exp_number, int(time.time())))
+                    shutil.copytree("runs", "exp_4/hadoop_co_cl1/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
+                                    +spec+"-"+str(pm["hadoop:reducer"]), exp_number, int(time.time())))
 
-                    shutil.copytree("runs_2", "hadoop-colocate-clusters-runs/runs-%s-%s-%s" % ("colc_clusters-hadoop-experiment-"+schedule_name+"-"\
-                                    +spec+"-"+str(reducer), exp_number+1, int(time.time())))
+                    shutil.copytree("runs_2", "exp_4/hadoop_co_cl2/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
+                                    +spec+"-"+str(pm["hadoop:reducer"]), exp_number+1, int(time.time())))
+                    time.sleep(10)
 
-                    files = glob.glob('runs/*')
-
-                    for f in files:
-                        os.remove(f) 
-
-                    files = glob.glob('runs_2/*')
-
-                    for f in files:
-                        os.remove(f) 
+                    shutil.rmtree("runs")
+                    shutil.rmtree("runs_2")
+                    time.sleep(10)
+                    
+                    delete_hadoop_vms(pm["hadoop:num_hadoop"],
+                            pm["exp_number"],
+                            pm["hadoop:placement"])
+                        
         #index= index+1
 
  
 if __name__ == '__main__':
-    exp_number = 220 # 12 == all quorum, 13 == all one read=one
+    exp_number = 998 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

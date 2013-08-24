@@ -53,25 +53,51 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
     retreive_iostat_results(nodes_used, pm["exp_number"])
 
 
+
+
+def delete_hadoop_vms(num_hadoop,
+                     exp_number,
+                     placement_map):
+    """ Delete Hadoop VMs according to placement_map """
+
+    HADOOP_HOSTNAME_PREFIX = "hadoop-%s" % exp_number
+
+    sync_glance_index()
+    sync_nova_list()
+
+    #
+    # Delete all existing instances of cassandra and ycsb
+    #
+    for i in range(1, num_hadoop + 1):
+        if (HADOOP_HOSTNAME_PREFIX + "-%s" % i in ACTIVE_MAP):
+            nova_delete(ACTIVE_MAP[HADOOP_HOSTNAME_PREFIX + "-%s" % i].id)
+
+    time.sleep(20)
+
+
+
 def baseline_hadoop_experiment(exp_number):
     
 
     
     pm = {}
-    reducer = int(5)
+    reducer = int(10)
     pm["exp_number"] = exp_number
     
 
     workloads = ['terasort']
     load = "terasort"
-    schedular = ['capacity', 'fair']
-    for schedule in schedular:
-    	for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
-             for run_no in range(1,6):
+    schedular = ['capacity','fair']
+    for schedule in schedular:     
+    	    for hadoop_spec in ["mapred-site-spec-true.xml","mapred-site-spec-false.xml"]:
+                for run_no in range(1,11):
 
-                    files = glob.glob('runs/*')
-                    for f in files:
-                        os.remove(f) 
+                    try:
+                        shutil.rmtree("runs")
+                    except OSError:
+                            print "runs/ folder doesn't exist. Continuing."
+
+                    os.mkdir("runs")
  
                     ################# One-to-One #############
                     pm["hadoop:reducer"]  = reducer
@@ -92,16 +118,16 @@ def baseline_hadoop_experiment(exp_number):
                         spec = "spec-true"
 
 
-                    shutil.copytree("runs", "hadoop-baseline-runs/runs-%s-%s-%s" % ("baseline-hadoop-experiment-"+schedule_name+"-"\
-                                    +spec+"-"+str(reducer), exp_number, int(time.time())))
+                    shutil.copytree("runs", "exp_5/hadoop_bs_5/runs-%s-%s-%s" % ("bs-experiment-"+schedule_name+"-"\
+                                    +spec+"-"+str(run_no)+"-"+str(reducer), pm["exp_number"], int(time.time())))
 
-                    files = glob.glob('runs/*')
-
-                    for f in files:
-                        os.remove(f) 
+                    shutil.rmtree("runs")
+                    delete_hadoop_vms(pm["hadoop:num_hadoop"],
+                        pm["exp_number"],
+                        pm["hadoop:placement"])
         #index= index+1
 
  
 if __name__ == '__main__':
-    exp_number = 200 # 12 == all quorum, 13 == all one read=one
+    exp_number = 1001 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

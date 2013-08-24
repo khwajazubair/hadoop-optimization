@@ -13,22 +13,11 @@ def spawn_hadoop_vms(num_hadoop,
 
     HADOOP_HOSTNAME_PREFIX = "hadoop-%s" % exp_number
 
-    sync_glance_index()
-    sync_nova_list()
-
-    #
-    # Delete all existing instances of cassandra and ycsb
-    #
-    for i in range(1, num_hadoop + 1):
-        if (HADOOP_HOSTNAME_PREFIX + "-%s" % i in ACTIVE_MAP):
-            nova_delete(ACTIVE_MAP[HADOOP_HOSTNAME_PREFIX + "-%s" % i].id)
-
-    time.sleep(20)
 
     sync_glance_index()
     sync_nova_list()
 
-    nova_boot(IMAGE_MAP["hadoop-nn-v2"],
+    nova_boot(IMAGE_MAP["hadoop-nn-v3"],
               HADOOP_HOSTNAME_PREFIX + "-1", 4,
               "--availability-zone=nova:%s" % placement_map[1])
     #time.sleep(60)
@@ -90,13 +79,21 @@ def setup_hadoop(num_hadoop,
 
     scp_file_to_host("slaves_%s" % (exp_number), get_ip_for_instance(HADOOP_NN)
                      + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/slaves")
+    execute_on_vm(get_ip_for_instance(HADOOP_NN), "sudo chmod a+rwx ~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/*")
    
     if (schedule == "fair"):
           print "fair schedular is selected"
-          scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/yarn-site.xml", get_ip_for_instance(HADOOP_NN)
-                     + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop")
-          scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/fair-schedular.xml", get_ip_for_instance(HADOOP_NN)
-                     + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop")
+
+          
+          execute_on_vm(get_ip_for_instance(HADOOP_NN), "cd ~/hadoop-3.0.0-SNAPSHOT/etc/hadoop;rm -r yarn-site.xml;")
+          execute_on_vm(get_ip_for_instance(HADOOP_NN), "cd ~/hadoop-3.0.0-SNAPSHOT/etc/hadoop;cp yarn-site-fair.xml yarn-site.xml")
+
+          #scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/yarn-site.xml", get_ip_for_instance(HADOOP_NN)
+          #           + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/yarn-site.xml.copy")
+          
+
+          #scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/fair-schedular.xml", get_ip_for_instance(HADOOP_NN)
+          #           + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop")
           
     elif (schedule =="capacity"):
           print "Default capacity schedular is selected"
@@ -138,7 +135,8 @@ def hadoop_load_workload(pm, exp_number, workload):
        print "Loading Hadoop teraSort"
        load_command = "hadoop jar \
        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar \
-               teragen 53687091 /user/hduser/terasort-input-"
+               teragen 107374182  /user/hduser/terasort-input-"
+               #53687091 = 5 GB
    
     elif (workload == "fb"):
 
@@ -171,6 +169,7 @@ def hadoop_run_workload(pm, exp_number, workload):
     HADOOP_NN = HADOOP_HOSTNAME_PREFIX + "-1"
     
     num_reducer= pm["hadoop:reducer"]
+    num_hadoop = pm["hadoop:num_hadoop"]
 
     sync_nova_list()
     run_command = ""
@@ -205,14 +204,27 @@ def hadoop_run_workload(pm, exp_number, workload):
     for process in processList:
         process.join()
 
+
+
     execute_on_vm(IP, "python parse_terasort_logs.py;")
+
+   
+    
 
     #scp_file_from_host("run.out", "runs/run.out.%s.%s" % (exp_number, time_before), IP)
     scp_file_from_host("logs_summary.out", "runs/logs_summary.out%s.%s" % (exp_number, time_before), IP)
     #scp_file_from_host("hadoop-3.0.0-SNAMPSHOT/logs/facebook_log.tsv", "runs/facebook_log.tsv.%s.%s" % (exp_number, time_before), get_ip_for_instance(HADOOP_NN))
 
     #scp_file_from_host("hadoop-3.0.0-SNAPSHOT/logs/*history*.log", "runs/history.%s.%s" % (exp_number, time_before), IP)
+    scp_folder_from_host("hadoop-3.0.0-SNAPSHOT/logs/fairscheduler/*", "runs/",IP)
+    execute_on_vm(get_ip_for_instance(HADOOP_NN), "rm -r hadoop-3.0.0-SNAPSHOT/logs/fairscheduler")
     scp_folder_from_host("hadoop-3.0.0-SNAPSHOT/logs/*", "runs/",IP)
     scp_folder_from_host("logs/*", "runs/",IP)
+
+    # Pull in all the NodeManager logs (should be done away with as soon as
+    # we can get log aggregation to work)
+    for i in range(2, num_hadoop + 1):
+        scp_folder_from_host("~/hadoop-3.0.0-SNAPSHOT/logs/userlogs", "runs/userlog-%s" % i, get_ip_for_instance(HADOOP_HOSTNAME_PREFIX + "-%s" % i))
+
 
     print "Hadoop run terminating after time: " + str(time.time() - time_before)
