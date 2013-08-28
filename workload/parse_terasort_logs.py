@@ -1,7 +1,8 @@
+
+import os, os.path
 import csv
 import time
 import datetime
-
 #Returns job ID
 def jobID(fileName):
 
@@ -157,11 +158,16 @@ def failShuffle(fileName):
 
 #Returns number of killed tasks
 def killedTasks(fileName):
- for line in open(fileName):
-  if "Killed map tasks" in line:
-   p=line.split("=")
-   return p[1]
- return "0"
+  count=0
+  for line in open(fileName):
+
+    if "Killed map tasks" in line:
+      p=line.split("=")
+      count=count+int(p[1])
+    if "Killed reduce tasks" in line:
+      p=line.split("=")
+      count=count+int(p[1])
+  return str(count)
 
 
 #Main method of the program
@@ -169,7 +175,7 @@ def main():
 
  path, dirs, files = os.walk("/home/ubuntu/logs").next()
  file_count = len(files)
- print "total job files are %s"%file_count
+ #print "total job files are %s"%file_count
  for i in range(file_count):
     c=str(i+1)
     fileName="logs/run.out-"+c

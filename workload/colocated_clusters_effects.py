@@ -37,7 +37,7 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
         process.join()
 
 
-    time.sleep(120)
+    time.sleep(200)
 
     ####### START PROCESSES ##########
     startProcessList = []
@@ -52,7 +52,7 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
 
     for process in startProcessList:
         process.join()
-    #time.sleep(120)
+    time.sleep(20)
 
 
 
@@ -70,7 +70,7 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
 
     for process in loadProcessList:
         process.join()
-
+    time.sleep(10)
 
 
 
@@ -117,7 +117,7 @@ def delete_hadoop_vms(num_hadoop,
             if (HADOOP_HOSTNAME_PREFIX + "-%s" % i in ACTIVE_MAP):
                 nova_delete(ACTIVE_MAP[HADOOP_HOSTNAME_PREFIX + "-%s" % i].id)
 
-            time.sleep(20)
+        time.sleep(30)
 
         #Next Experiment    
         exp_number = exp_number + 1
@@ -137,6 +137,7 @@ def baseline_hadoop_experiment(exp_number):
     for schedule in schedular:
     	    for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
                 for run_no in range(1,6):
+
                     try:
                         shutil.rmtree("runs")
                     except OSError:
@@ -175,10 +176,10 @@ def baseline_hadoop_experiment(exp_number):
                         spec = "spec-true"
 
 
-                    shutil.copytree("runs", "exp_4/hadoop_co_cl1/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
+                    shutil.copytree("runs", "exp_1/hadoop_co_cl1/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
                                     +spec+"-"+str(pm["hadoop:reducer"]), exp_number, int(time.time())))
 
-                    shutil.copytree("runs_2", "exp_4/hadoop_co_cl2/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
+                    shutil.copytree("runs_2", "exp_1/hadoop_co_cl2/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
                                     +spec+"-"+str(pm["hadoop:reducer"]), exp_number+1, int(time.time())))
                     time.sleep(10)
 
@@ -194,5 +195,5 @@ def baseline_hadoop_experiment(exp_number):
 
  
 if __name__ == '__main__':
-    exp_number = 998 # 12 == all quorum, 13 == all one read=one
+    exp_number = 16 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

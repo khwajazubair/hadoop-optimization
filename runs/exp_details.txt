@@ -1,0 +1,69 @@
+
+This document explains the detail for all experiments.
+--------------------------------------------------------
+
+
+General Information about experiments
+################################################
+
+Three mode for each experiment.
+
+1- Baseline (bs):
+ In baseline configuration , we validate the hadoop scheduler performance and behaviour. A set of two scheduler is used during experiment.The capacity scheduler and fair-share scheduler. Each scheduler performance is evaluated in two modes, speculative true and speculative false. As total, for set of experiment is executed in experiment 1. Capacity Scheduler with speculative true, capacity scheduler with speculative false, fair share scheduler with speculative true, and fair share scheduler with speculative fals. 
+
+ 2. Colocated cluster(co_dn): 
+ In colocated configuration a maximum of two datanode of vms are running on same physical machine. Both datanodes belong to single hadoop namenode machine. In total there is one hadoop cluster running. 
+
+ 3. Colocated Cluster(co_cl):
+ In colocated cluster configuration mode, a total of two hadooop cluster is launched. On each physical machine a pair of datanode co exists where each one belongs to different cluster. A pair of namenode is also launched on one of physical machines. Each namenode is responsible for its own data node operations. 
+
+
+Experiment Schedulers:
+----------------------
+ 1- Capacity Scheduler with speculative true (refered as 'cpt' in this document)
+ 2- Capacity Scheduler with speculative false (refered as 'cpf' in this document)
+ 3- Fair share scheduler with speculative true (refered as 'fst' in this document)
+ 4- Fair share scheduler with speculative false (refered as 'fsf' in this document)
+
+
+ Run No:
+ -> Five run for each scheduler 
+
+#########################################################################################################################
+									Eexperiment-1 (data folder called exp_1)
+##########################################################################################################################
+Experiment 1
+-------------
+
+Experiment 1  is about sorting 5 GB of data using hadoop cluster with one reduce in 3 different modes. 
+
+
+
+Summary : 
+ each job workload : 5 GB 
+ R/W Data : 5 GB 
+ Scheduler  : cpt, cpf, fst, fsf
+ Number of reducers: one 
+ Number of users : one
+ Total jobs : 5 jobs per run
+ Number of Runs : 5 runs, for each scheduler
+ VM placement : Baseline , Colocated Datanodes, colocated Clusters 
+ total VMS : 7 vms (one namenode, 6 datanodes) 
+
+#########################################################################################################################
+									Eexperiment-2 (data folder called exp_2)
+##########################################################################################################################
+
+ Experiment 2 is the same as experiment one, the only change in experiment 2 is that number of reducer is increased from 1 to 10. Hadoop performance is evaluated when number of reducer is 10. 
+
+ Summary : 
+ each job workload : 5 GB 
+ R/W Data : 5 GB 
+ Scheduler  : cpt, cpf, fst, fsf
+ Number of reducers: ten 
+ Number of users : one
+ Total jobs : 5 jobs per run
+ Number of Runs : 5 runs, for each scheduler
+ VM placement : Baseline , Colocated Datanodes, colocated Clusters 
+ total VMS : 7 vms (one namenode, 6 datanodes) 
+

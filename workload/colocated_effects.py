@@ -84,7 +84,7 @@ def baseline_hadoop_experiment(exp_number):
     for schedule in schedular:
                 
             for hadoop_spec in ["mapred-site-spec-true.xml", "mapred-site-spec-false.xml"]:
-                for i in range (1,6):
+                for i in range (1,11):
                     try:
                         shutil.rmtree("runs")
                     except OSError:
@@ -111,7 +111,7 @@ def baseline_hadoop_experiment(exp_number):
                     else:
                         spec = "spec-true"
 
-                    shutil.copytree("runs", "exp_4/hadoop_co_dn_4/runs-%s-%s-%s" % ("col-dn-hadoop-exp-"+str(i)+"-"+schedule_name+"-"\
+                    shutil.copytree("runs", "exp_5/hadoop_co_dn_5/runs-%s-%s-%s" % ("col-dn-hadoop-exp-"+str(i)+"-"+schedule_name+"-"\
                         +spec+"-"+str(reducer), pm["exp_number"], int(time.time())))
 
                     shutil.rmtree("runs")
@@ -122,5 +122,5 @@ def baseline_hadoop_experiment(exp_number):
         
  
 if __name__ == '__main__':
-    exp_number = 999 # 12 == all quorum, 13 == all one read=one
+    exp_number = 1001 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

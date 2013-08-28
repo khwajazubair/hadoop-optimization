@@ -1,0 +1,333 @@
+Synchronising glance index
+[]
+Synchronising nova list
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image ab30b1fa-59d5-4e59-96e3-42e8f7736d4f                   --key_name nova_test                   --availability-zone=nova:loadgen162                   --security_group default hadoop-9998-1
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen163                   --security_group default hadoop-9998-2
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen164                   --security_group default hadoop-9998-3
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen165                   --security_group default hadoop-9998-4
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen166                   --security_group default hadoop-9998-5
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen167                   --security_group default hadoop-9998-6
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen168                   --security_group default hadoop-9998-7
+[]
+Retries  10
+Synchronising nova list
+[]
+VMs have booted
+Synchronising glance index
+[]
+Synchronising nova list
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image ab30b1fa-59d5-4e59-96e3-42e8f7736d4f                   --key_name nova_test                   --availability-zone=nova:loadgen162                   --security_group default hadoop-9999-1
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen163                   --security_group default hadoop-9999-2
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen164                   --security_group default hadoop-9999-3
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen165                   --security_group default hadoop-9999-4
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen166                   --security_group default hadoop-9999-5
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen167                   --security_group default hadoop-9999-6
+[]
+Executing nova boot. Command string:  nova boot                   --flavor 4                   --image 95a736c4-0f7c-4552-84f1-9a5f9588e6b6                   --key_name nova_test                   --availability-zone=nova:loadgen168                   --security_group default hadoop-9999-7
+[]
+Retries  10
+Synchronising nova list
+[]
+VMs have booted
+Synchronising nova list
+[]
+Synchronising nova list
+[]
+scp slaves_9998 192.168.100.26:~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/slaves
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.26', 'source ~/.bashrc; sudo chmod a+rwx ~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/*']
+Default capacity schedular is selected
+Synchronising nova list
+[]
+scp mapred-site-spec-true.xml 192.168.100.26:~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/mapred-site.xml
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.26', 'source ~/.bashrc; rm -r parse_terasort_logs.py;']
+Synchronising nova list
+[]
+scp parse_terasort_logs.py 192.168.100.26:~/parse_terasort_logs.py
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.26', 'source ~/.bashrc; hdfs namenode -format']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; ~/hadoop-3.0.0-SNAPSHOT/sbin/hadoop-daemon.sh start namenode']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', "source ~/.bashrc; HADOOP_SSH_OPTS='-i  /home/ubuntu/.ssh/hadoop_rsa -l ubuntu' ~/hadoop-3.0.0-SNAPSHOT/sbin/hadoop-daemons.sh start datanode"]
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; ~/hadoop-3.0.0-SNAPSHOT/sbin/yarn-daemon.sh start resourcemanager']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', "source ~/.bashrc; HADOOP_SSH_OPTS='-i  /home/ubuntu/.ssh/hadoop_rsa -l ubuntu' ~/hadoop-3.0.0-SNAPSHOT/sbin/yarn-daemons.sh start nodemanager"]
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; ~/hadoop-3.0.0-SNAPSHOT/sbin/./mr-jobhistory-daemon.sh start historyserver']
+Synchronising nova list
+[]
+Synchronising nova list
+[]
+scp slaves_9999 192.168.100.31:~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/slaves
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.31', 'source ~/.bashrc; sudo chmod a+rwx ~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/*']
+Default capacity schedular is selected
+Synchronising nova list
+[]
+scp mapred-site-spec-true.xml 192.168.100.31:~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/mapred-site.xml
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.31', 'source ~/.bashrc; rm -r parse_terasort_logs.py;']
+Synchronising nova list
+[]
+scp parse_terasort_logs.py 192.168.100.31:~/parse_terasort_logs.py
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.31', 'source ~/.bashrc; hdfs namenode -format']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; ~/hadoop-3.0.0-SNAPSHOT/sbin/hadoop-daemon.sh start namenode']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', "source ~/.bashrc; HADOOP_SSH_OPTS='-i  /home/ubuntu/.ssh/hadoop_rsa -l ubuntu' ~/hadoop-3.0.0-SNAPSHOT/sbin/hadoop-daemons.sh start datanode"]
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; ~/hadoop-3.0.0-SNAPSHOT/sbin/yarn-daemon.sh start resourcemanager']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', "source ~/.bashrc; HADOOP_SSH_OPTS='-i  /home/ubuntu/.ssh/hadoop_rsa -l ubuntu' ~/hadoop-3.0.0-SNAPSHOT/sbin/yarn-daemons.sh start nodemanager"]
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; ~/hadoop-3.0.0-SNAPSHOT/sbin/./mr-jobhistory-daemon.sh start historyserver']
+Synchronising nova list
+[]
+Loading Hadoop teraSort
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-1;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-2;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-3;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-4;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-5;']
+Hadoop load terminating after time: 25.8367509842
+Synchronising nova list
+[]
+Loading Hadoop teraSort
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-1;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-2;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-3;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-4;']
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar                teragen 53687091  /user/hduser/terasort-input-5;']
+Hadoop load terminating after time: 27.5895719528
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; sudo pkill mpstat; sudo mpstat -P ALL 1 &> /mnt/mpstat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; sudo pkill mpstat; sudo mpstat -P ALL 1 &> /mnt/mpstat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; sudo pkill mpstat; sudo mpstat -P ALL 1 &> /mnt/mpstat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; sudo pkill mpstat; sudo mpstat -P ALL 1 &> /mnt/mpstat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; sudo pkill mpstat; sudo mpstat -P ALL 1 &> /mnt/mpstat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; sudo pkill mpstat; sudo mpstat -P ALL 1 &> /mnt/mpstat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; sudo pkill mpstat; sudo mpstat -P ALL 1 &> /mnt/mpstat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; sudo pkill bmon; sudo bmon -p br100,eth2 -o ascii:header=10 -r 0.01 &> /mnt/bmon-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; sudo pkill bmon; sudo bmon -p br100,eth2 -o ascii:header=10 -r 0.01 &> /mnt/bmon-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; sudo pkill bmon; sudo bmon -p br100,eth2 -o ascii:header=10 -r 0.01 &> /mnt/bmon-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; sudo pkill bmon; sudo bmon -p br100,eth2 -o ascii:header=10 -r 0.01 &> /mnt/bmon-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; sudo pkill bmon; sudo bmon -p br100,eth2 -o ascii:header=10 -r 0.01 &> /mnt/bmon-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; sudo pkill bmon; sudo bmon -p br100,eth2 -o ascii:header=10 -r 0.01 &> /mnt/bmon-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; sudo pkill bmon; sudo bmon -p br100,eth2 -o ascii:header=10 -r 0.01 &> /mnt/bmon-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; sudo pkill iostat; sudo iostat -x -k -d 1 &> /mnt/iostat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; sudo pkill iostat; sudo iostat -x -k -d 1 &> /mnt/iostat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; sudo pkill iostat; sudo iostat -x -k -d 1 &> /mnt/iostat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; sudo pkill iostat; sudo iostat -x -k -d 1 &> /mnt/iostat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; sudo pkill iostat; sudo iostat -x -k -d 1 &> /mnt/iostat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; sudo pkill iostat; sudo iostat -x -k -d 1 &> /mnt/iostat-9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; sudo pkill iostat; sudo iostat -x -k -d 1 &> /mnt/iostat-9998']
+Synchronising nova list
+[]
+Running terasort workload.
+Synchronising nova list
+[]
+Synchronising nova list
+[]
+Running terasort workload.
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-4 /user/hduser/terasort-output-4&> logs/run.out-4;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-5 /user/hduser/terasort-output-5&> logs/run.out-5;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-2 /user/hduser/terasort-output-2&> logs/run.out-2;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-3 /user/hduser/terasort-output-3&> logs/run.out-3;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-5 /user/hduser/terasort-output-5&> logs/run.out-5;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-1 /user/hduser/terasort-output-1&> logs/run.out-1;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-3 /user/hduser/terasort-output-3&> logs/run.out-3;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-4 /user/hduser/terasort-output-4&> logs/run.out-4;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-1 /user/hduser/terasort-output-1&> logs/run.out-1;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; hadoop jar /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar terasort         -D mapred.reduce.tasks=10  /user/hduser/terasort-input-2 /user/hduser/terasort-output-2&> logs/run.out-2;']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; python parse_terasort_logs.py;']
+scp 192.168.100.5:logs_summary.out runs/logs_summary.out9998.1377571664.64
+scp 192.168.100.5:hadoop-3.0.0-SNAPSHOT/logs/fairscheduler/* runs/
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.5', 'source ~/.bashrc; rm -r hadoop-3.0.0-SNAPSHOT/logs/fairscheduler']
+scp 192.168.100.5:hadoop-3.0.0-SNAPSHOT/logs/* runs/
+scp 192.168.100.5:logs/* runs/
+Synchronising nova list
+[]
+scp 192.168.100.18:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs/userlog-2
+Synchronising nova list
+[]
+scp 192.168.100.22:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs/userlog-3
+Synchronising nova list
+[]
+scp 192.168.100.21:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs/userlog-4
+Synchronising nova list
+[]
+scp 192.168.100.45:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs/userlog-5
+Synchronising nova list
+[]
+scp 192.168.100.49:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs/userlog-6
+Synchronising nova list
+[]
+scp 192.168.100.33:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs/userlog-7
+Hadoop run terminating after time: 29.8172180653
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; python parse_terasort_logs.py;']
+scp 192.168.100.42:logs_summary.out runs_2/logs_summary.out9999.1377571664.64
+scp 192.168.100.42:hadoop-3.0.0-SNAPSHOT/logs/fairscheduler/* runs_2/
+Synchronising nova list
+[]
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'ubuntu@192.168.100.42', 'source ~/.bashrc; rm -r hadoop-3.0.0-SNAPSHOT/logs/fairscheduler']
+scp 192.168.100.42:hadoop-3.0.0-SNAPSHOT/logs/* runs_2/
+scp 192.168.100.42:logs/* runs_2/
+Synchronising nova list
+[]
+scp 192.168.100.53:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs_2/userlog-2
+Synchronising nova list
+[]
+scp 192.168.100.54:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs_2/userlog-3
+Synchronising nova list
+[]
+scp 192.168.100.46:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs_2/userlog-4
+Synchronising nova list
+[]
+scp 192.168.100.35:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs_2/userlog-5
+Synchronising nova list
+[]
+scp 192.168.100.40:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs_2/userlog-6
+Synchronising nova list
+[]
+scp 192.168.100.61:~/hadoop-3.0.0-SNAPSHOT/logs/userlogs runs_2/userlog-7
+Hadoop run terminating after time: 30.2946867943
+loadgen162
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; sudo pkill mpstat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162:/mnt/mpstat-9998', 'runs/mpstat.loadgen162.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; rm /mnt/mpstat-9998']
+loadgen163
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; sudo pkill mpstat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163:/mnt/mpstat-9998', 'runs/mpstat.loadgen163.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; rm /mnt/mpstat-9998']
+loadgen164
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; sudo pkill mpstat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164:/mnt/mpstat-9998', 'runs/mpstat.loadgen164.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; rm /mnt/mpstat-9998']
+loadgen165
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; sudo pkill mpstat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165:/mnt/mpstat-9998', 'runs/mpstat.loadgen165.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; rm /mnt/mpstat-9998']
+loadgen166
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; sudo pkill mpstat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166:/mnt/mpstat-9998', 'runs/mpstat.loadgen166.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; rm /mnt/mpstat-9998']
+loadgen167
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; sudo pkill mpstat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167:/mnt/mpstat-9998', 'runs/mpstat.loadgen167.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; rm /mnt/mpstat-9998']
+loadgen168
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; sudo pkill mpstat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168:/mnt/mpstat-9998', 'runs/mpstat.loadgen168.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; rm /mnt/mpstat-9998']
+loadgen162
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; sudo pkill bmon']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162:/mnt/bmon-9998', 'runs/bmon.loadgen162.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; rm /mnt/bmon-9998']
+loadgen163
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; sudo pkill bmon']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163:/mnt/bmon-9998', 'runs/bmon.loadgen163.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; rm /mnt/bmon-9998']
+loadgen164
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; sudo pkill bmon']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164:/mnt/bmon-9998', 'runs/bmon.loadgen164.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; rm /mnt/bmon-9998']
+loadgen165
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; sudo pkill bmon']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165:/mnt/bmon-9998', 'runs/bmon.loadgen165.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; rm /mnt/bmon-9998']
+loadgen166
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; sudo pkill bmon']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166:/mnt/bmon-9998', 'runs/bmon.loadgen166.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; rm /mnt/bmon-9998']
+loadgen167
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; sudo pkill bmon']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167:/mnt/bmon-9998', 'runs/bmon.loadgen167.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; rm /mnt/bmon-9998']
+loadgen168
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; sudo pkill bmon']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168:/mnt/bmon-9998', 'runs/bmon.loadgen168.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; rm /mnt/bmon-9998']
+loadgen162
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; sudo pkill iostat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162:/mnt/iostat-9998', 'runs/iostat.loadgen162.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen162', 'source ~/.bashrc; rm /mnt/iostat-9998']
+loadgen163
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; sudo pkill iostat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163:/mnt/iostat-9998', 'runs/iostat.loadgen163.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen163', 'source ~/.bashrc; rm /mnt/iostat-9998']
+loadgen164
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; sudo pkill iostat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164:/mnt/iostat-9998', 'runs/iostat.loadgen164.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen164', 'source ~/.bashrc; rm /mnt/iostat-9998']
+loadgen165
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; sudo pkill iostat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165:/mnt/iostat-9998', 'runs/iostat.loadgen165.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen165', 'source ~/.bashrc; rm /mnt/iostat-9998']
+loadgen166
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; sudo pkill iostat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166:/mnt/iostat-9998', 'runs/iostat.loadgen166.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen166', 'source ~/.bashrc; rm /mnt/iostat-9998']
+loadgen167
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; sudo pkill iostat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167:/mnt/iostat-9998', 'runs/iostat.loadgen167.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen167', 'source ~/.bashrc; rm /mnt/iostat-9998']
+loadgen168
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; sudo pkill iostat']
+['scp', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168:/mnt/iostat-9998', 'runs/iostat.loadgen168.9998']
+['ssh', '-i', '/home/routerlab/.ssh/nova_test', 'routerlab@loadgen168', 'source ~/.bashrc; rm /mnt/iostat-9998']

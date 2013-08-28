@@ -9,7 +9,7 @@
 %----------------------------------------------------------------------------------------
 
 
-Today's most popular applications are interned based applications such as, social media, e-commerce, etc. For user interact with these applications , various data such as  click-stream data,crawled web documents, web requests, logs etc, are generated. As the applications serves millions of users around the globe, so the amount generated data is also huge or so called Big Data. This Big Data is is potential gold mine for the companies to understand access pattern and ad revenue of the company.  click-stream data for user actions are the main sources for the developers and operators to diagnose problems in production.
+Today's most popular applications are interned based applications such as, social media, e-commerce, etc. For user interact with these applications , various data such as  click-stream data,crawled web documents, web requests, logs etc, are generated. As the applications serves millions of users around the globe, so the amount generated data is also huge or so called Big Data. This Big Data is is potential gold mine for the companies to understand access pattern and ad revenue of the company.  click-stream data for user actions are the main sources for developers and operators to diagnose problems in production.
 
     The Authors in Google implemented many special-purpose computation paradigm in the past years. The purpose of these special-purpose computation was to process large amount of raw data such as crawled web documents, web requests, logs, etc. The process of large data helps Google to compute various graph of derived data, such as inverted indices, various graph representation of web documents, summaries of number of pages crawled per host, the set of most frequent queries in a data , etc.
 
@@ -41,7 +41,7 @@ If the job size is very small , then the job creation and map creation time will
 \subsection{Hadoop Distributed File System (HDFS)}
 
 HDFS is the file system component of Hadoop which stores large data sets across cluster of computers in reliable and distributed manner. HDFS is designed to stream data in high bandwidth to user applications.
-“HDFS is a filesystem designed for storing very large files with streaming data access patterns, running on clusters of commodity hardware” [2] .
+“HDFS is a filesystem designed for storing very large files with streaming data access patterns, running on clusters of commodity hardware” \cite{tom3} \cite{Reference2}.
 
 \textbf{Very Large Files} 
   The “very large” in this context refers to files in size of hundreds of megabytes, gigabytes or terabytes.
@@ -86,22 +86,78 @@ Hadoop stores meta-data and application data separately. The Meta data is stored
  
 Though organizations can have their own private compute resources with sufficient capacity to execute jobs on, but such private resources may cost expensive and lead to low utilization of resources.Capacity Scheduler is pluggable MapReduce scheduler that is designed to allow multiple-tenants to share large Hadoop cluster securely and to maximize utilization of the cluster.It is cost effective for the organization to share clusters and run jobs comparing to having their own private cluster. 
 
- Using capacity scheduler , the organizations fund the Hadoop cluster collectively, and obtains their share.The available resource in the Hadoop cluster is partitioned and  minimum guaranteed share for each organization provided. In addition, organization can access more then limited only when the cluster resource is not used by other organization. This mechanism provides elasticity for organization and maximizes the cluster utilization. It means, if other organizations does not use the cluster, then any organization can use full cluster resources(not limited minimum) for its computational jobs as long as their only one organization submitting jobs to the cluster. 
+ Using capacity scheduler , the organizations fund the Hadoop cluster collectively, and obtains their share.The available resource in the Hadoop cluster is partitioned and  guaranteed  minimum share for each organization is provided. In addition, organization can access more then limited share only when the cluster resource is not used by other organization. This mechanism provides elasticity for organization and maximizes the cluster utilization. It means, if other organizations does not use the cluster, then any organization can use full cluster resources(not limited minimum) for its computational jobs as long as their only one organization submitting jobs to the cluster.
  
+ As the cluster is shared among organization, this leads to strong cooporation for multi-tenancy to guarantee minimum limit of each organization. To avoid more then limit consume of resources  by single job or user that affects other organization's share, capacity scheduler provides safe-guards that limits the user or job access to its share.The capacity scheduler , manages users and jobs in queue structures and resource share is provided to each queue based on their economical share of the cluster. Typically the queues are setup by administrator.
  
+ As mentioned in above paragraph, capacity scheduler is pluggable Hadoop mapreduce job scheduler which is available as JAR file in the hadoop tarball under contrib/ capacity-scheduler directory.It is also possible to build scheduler from source by executing ant package, and source package is available under build/contrib/capacity-scheduler
  
- 
- 
- Sharing clusters across organizations necessitates strong support for multi-tenancy since
-each organization must be guaranteed capacity and safe-guards to ensure the shared cluster
-is impervious to single rouge job or user. The CapacityScheduler provides a stringent set of
-limits to ensure that a single job or user or queue cannot consume dispropotionate amount
-of resources in the cluster. Also, the JobTracker of the cluster, in particular, is a precious
-resource and the CapacityScheduler provides limits on initialized/pending tasks and jobs
-from a single user and queue to ensure fairness and stability of the cluster.
+   
 
-  
  
+ 
+ \subsubsection*{Features}
+ \textbf{Capacity Guarantee}
+
+Capacity scheduler supports multiple queues,the organization submit jobs to their relevant queue(s). The cluster resources is allocated between all the queues based on their economical share of the cluster. It mean that certain capacity of the cluster at disposal of jobs of its queue. There could be soft or hard limit between queues configured by administrator. Where soft limit means that queue can access more then limited capacity if the others does not use the resource. Hard limit refers to situation where organization can use only their own share of the resource not more. 
+
+
+ 
+ \textbf{Security}
+ 
+In order to prevent unauthorized user to submit jobs to queue, strict access control lists are applied to each queue. The safe-guards can be used to ensure that users can not view or modify jobs from other users.   
+ 
+
+\textbf{Elasticity } 
+
+It is not must for queue of jobs to use only its share portion of resources.Queues can demand beyond their capacity, if there is chance in future point in tasks, then after scheduled tasks executed and completed on resource, these free resources can be allocated to queue which has demand. This mechanism maximizes resource utilization and ensures that resource are available in elastic manner. 
+
+
+\textbf{Multi-tenancy }
+
+To ensure that cluster resource is not monopolized by single,job,user and queue limits are provided which ensures that the system or in particular jobTracker is not overwhelmed by too many tasks or jobs. 
+
+\textbf{Operability }
+
+User and administrators can view current allocation of the queues of the system through console. It is also possible to change queue modification during run time without disruption to users. 
+
+
+\textbf{Resource-based Scheduling }
+
+Resource intensive jobs are those that requires or can demand for higher-requirement then default. Capacity Scheduler can accomodate applications or in particular jobs with different resource requirement. Memory is the only resource currently supported by Capacity Scheduler. 
+
+\textbf{Job Priorities }
+
+Though a running job can not be preempted by any other job, but it is possible to assign higher priority to a job within the queue. Jobs that have higher priority will have access to queue's share of resources faster than jobs with lower priority. By default, priority is disabled in capacity scheduler.\cite{capacity} 
+
+
+\subsection{Fair-Share Scheduler}
+
+Fair-share scheduler is pluggable mapreduce Hadoop scheduler that maintains separate queues for user groups (pools). Resources are allocated to jobs, in a way that on average every job gets fair share of resources over time. If there is single job running, then, it can utilize full resources of the cluster.For new submitted jobs, the slots that become free will be allocated, this mechanism provides opportunity that each job consume on average roughly same amount of resources. Unlike default Hadoop scheduler that maintain queue of jobs, fair-share scheduler lets short jobs to complete in reasonable time and also it does not starve long jobs.  \cite{dynamic} \cite{fair}
+
+ 
+The fair-share scheduler maintains jobs into pools, initial fair distribution of resources across multiple pools are assigned to these pools in order to limit their access to resources.In addition to provision of fair share of resources, fair share scheduler can provide minimum guranteed amount of resources( or computer time of CPU) to each pool to ensure that each user,pool gets sufficient amount of resources. If a pool completed its jobs and does not need the resources,excess resources is evenly distributed among other pools.\cite{fair}
+ By default there is one queue per user so that all users can get equally same fraction of total resources.The setup of job pool is possible based on Unix user groups or any other jobconf property.Within each queue, jobs can be scheduled as first-in-first-out (FIFO) or fair share schedule. Fair-share can support job priority, where priority is weight that identifies fraction of total compute time for each job. In addition,  inter-queue job priority is also supported by fair-share scheduler.\cite{fair}
+ 
+ 
+ \textbf{Task Preeption}
+ 
+ In case if minimum share of a pool is not provided, after waiting for certain period of time, the scheduler may kill a task from other pool(s) to provide minimum share to pool.Killing task of other jobs is called task preemption.It is also possible that preemption happen if a pool is below its half share for configurable timeout period.Usually timeout value is higher than minimum share timeout preemption.\cite{fair} \cite{fairw} 
+ 
+In both cases of above preemption , the fair share scheduler kills most-recently-launched tasks from over-allocated jobs, to minimize wasted computation.Since Hadoop jobs are tolerated to losing tasks, killing tasks does not cause jobs to fail but causes them to take longer to finish.\cite{fair}\cite{fairw} 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \subsection{Speculative Execution}

@@ -1,0 +1,57 @@
+2013-08-27 18:44:48,810 WARN [main] org.apache.hadoop.util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2013-08-27 18:44:48,914 ERROR [main] org.apache.hadoop.util.Shell: Failed to detect a valid hadoop home directory
+java.io.IOException: HADOOP_HOME or hadoop.home.dir are not set.
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:163)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:186)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:77)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:91)
+2013-08-27 18:44:49,320 INFO [main] org.apache.hadoop.metrics2.impl.MetricsConfig: loaded properties from hadoop-metrics2.properties
+2013-08-27 18:44:49,667 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Scheduled snapshot period at 10 second(s).
+2013-08-27 18:44:49,667 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: ReduceTask metrics system started
+2013-08-27 18:44:49,682 INFO [main] org.apache.hadoop.mapred.YarnChild: Executing with tokens:
+2013-08-27 18:44:49,682 INFO [main] org.apache.hadoop.mapred.YarnChild: Kind: mapreduce.job, Service: job_1377627450450_0010, Ident: (org.apache.hadoop.mapreduce.security.token.JobTokenIdentifier@3a5f5a46)
+2013-08-27 18:44:49,782 INFO [main] org.apache.hadoop.mapred.YarnChild: Sleeping for 0ms before retrying again. Got null now.
+2013-08-27 18:44:50,825 INFO [main] org.apache.hadoop.mapred.YarnChild: mapreduce.cluster.local.dir for child: /mnt/hdfs-tmp/nm-local-dir/usercache/ubuntu/appcache/application_1377627450450_0010
+2013-08-27 18:44:51,094 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id
+2013-08-27 18:44:51,094 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap
+2013-08-27 18:44:51,095 WARN [main] org.apache.hadoop.conf.Configuration: mapred.tip.id is deprecated. Instead, use mapreduce.task.id
+2013-08-27 18:44:51,095 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.partition is deprecated. Instead, use mapreduce.task.partition
+2013-08-27 18:44:51,096 WARN [main] org.apache.hadoop.conf.Configuration: mapred.local.dir is deprecated. Instead, use mapreduce.cluster.local.dir
+2013-08-27 18:44:51,097 WARN [main] org.apache.hadoop.conf.Configuration: job.local.dir is deprecated. Instead, use mapreduce.job.local.dir
+2013-08-27 18:44:51,098 WARN [main] org.apache.hadoop.conf.Configuration: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+2013-08-27 18:44:51,098 WARN [main] org.apache.hadoop.conf.Configuration: mapred.cache.localFiles is deprecated. Instead, use mapreduce.job.cache.local.files
+2013-08-27 18:44:51,098 WARN [main] org.apache.hadoop.conf.Configuration: mapred.job.id is deprecated. Instead, use mapreduce.job.id
+2013-08-27 18:44:51,321 WARN [main] org.apache.hadoop.conf.Configuration: session.id is deprecated. Instead, use dfs.metrics.session-id
+2013-08-27 18:44:51,371 WARN [main] org.apache.hadoop.mapred.YarnChild: Exception running child : java.lang.IllegalArgumentException: java.net.UnknownHostException: hadoop-9-1
+	at org.apache.hadoop.security.SecurityUtil.buildTokenService(SecurityUtil.java:418)
+	at org.apache.hadoop.hdfs.NameNodeProxies.createNonHAProxy(NameNodeProxies.java:164)
+	at org.apache.hadoop.hdfs.NameNodeProxies.createProxy(NameNodeProxies.java:129)
+	at org.apache.hadoop.hdfs.DFSClient.<init>(DFSClient.java:419)
+	at org.apache.hadoop.hdfs.DFSClient.<init>(DFSClient.java:386)
+	at org.apache.hadoop.hdfs.DistributedFileSystem.initialize(DistributedFileSystem.java:126)
+	at org.apache.hadoop.fs.FileSystem.createFileSystem(FileSystem.java:2311)
+	at org.apache.hadoop.fs.FileSystem.access$200(FileSystem.java:87)
+	at org.apache.hadoop.fs.FileSystem$Cache.getInternal(FileSystem.java:2345)
+	at org.apache.hadoop.fs.FileSystem$Cache.get(FileSystem.java:2327)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:352)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:164)
+	at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:157)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1489)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:153)
+Caused by: java.net.UnknownHostException: hadoop-9-1
+	... 17 more
+
+2013-08-27 18:44:51,379 INFO [main] org.apache.hadoop.mapred.Task: Runnning cleanup for the task
+2013-08-27 18:44:51,379 INFO [main] org.apache.hadoop.mapred.YarnChild: Exception cleaning up: java.lang.NullPointerException
+	at org.apache.hadoop.mapred.Task.taskCleanup(Task.java:1193)
+	at org.apache.hadoop.mapred.YarnChild$3.run(YarnChild.java:178)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1489)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:175)
+
+2013-08-27 18:44:51,388 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Stopping ReduceTask metrics system...
+2013-08-27 18:44:51,388 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: ReduceTask metrics system stopped.
+2013-08-27 18:44:51,389 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: ReduceTask metrics system shutdown complete.

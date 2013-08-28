@@ -1,0 +1,37 @@
+2013-08-15 15:39:03,926 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: Created MRAppMaster for application appattempt_1376580422093_0007_000001
+2013-08-15 15:39:03,945 ERROR [main] org.apache.hadoop.util.Shell: Failed to detect a valid hadoop home directory
+java.io.IOException: HADOOP_HOME or hadoop.home.dir are not set.
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:163)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:186)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:77)
+	at org.apache.hadoop.yarn.conf.YarnConfiguration.<clinit>(YarnConfiguration.java:299)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.main(MRAppMaster.java:1242)
+2013-08-15 15:39:09,972 WARN [main] org.apache.hadoop.util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2013-08-15 15:39:10,338 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: jobSubmitDir=file:/mnt/hdfs-tmp/nm-local-dir/usercache/ubuntu/appcache/application_1376580422093_0007/container_1376580422093_0007_01_000001/jobSubmitDir jobTokenFile=file:/mnt/hdfs-tmp/nm-local-dir/usercache/ubuntu/appcache/application_1376580422093_0007/container_1376580422093_0007_01_000001/jobSubmitDir/appTokens
+2013-08-15 15:39:10,339 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: The specific max attempts: 1 for application: 7. Attempt num: 1 is last retry: true
+2013-08-15 15:39:10,358 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: Using mapred newApiCommitter.
+2013-08-15 15:39:10,460 FATAL [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: Error starting MRAppMaster
+java.lang.IllegalArgumentException: java.net.UnknownHostException: hadoop-510-1
+	at org.apache.hadoop.security.SecurityUtil.buildTokenService(SecurityUtil.java:418)
+	at org.apache.hadoop.hdfs.NameNodeProxies.createNonHAProxy(NameNodeProxies.java:164)
+	at org.apache.hadoop.hdfs.NameNodeProxies.createProxy(NameNodeProxies.java:129)
+	at org.apache.hadoop.hdfs.DFSClient.<init>(DFSClient.java:419)
+	at org.apache.hadoop.hdfs.DFSClient.<init>(DFSClient.java:386)
+	at org.apache.hadoop.hdfs.DistributedFileSystem.initialize(DistributedFileSystem.java:126)
+	at org.apache.hadoop.fs.FileSystem.createFileSystem(FileSystem.java:2311)
+	at org.apache.hadoop.fs.FileSystem.access$200(FileSystem.java:87)
+	at org.apache.hadoop.fs.FileSystem$Cache.getInternal(FileSystem.java:2345)
+	at org.apache.hadoop.fs.FileSystem$Cache.get(FileSystem.java:2327)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:352)
+	at org.apache.hadoop.fs.FileSystem.get(FileSystem.java:164)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.getFileSystem(MRAppMaster.java:484)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.init(MRAppMaster.java:256)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$1.run(MRAppMaster.java:1297)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1489)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.initAndStartAppMaster(MRAppMaster.java:1294)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.main(MRAppMaster.java:1253)
+Caused by: java.net.UnknownHostException: hadoop-510-1
+	... 20 more
+2013-08-15 15:39:10,464 INFO [Thread-1] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: MRAppMaster received a signal. Signaling RMCommunicator and JobHistoryEventHandler.

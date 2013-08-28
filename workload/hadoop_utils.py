@@ -87,9 +87,6 @@ def setup_hadoop(num_hadoop,
           
           execute_on_vm(get_ip_for_instance(HADOOP_NN), "cd ~/hadoop-3.0.0-SNAPSHOT/etc/hadoop;rm -r yarn-site.xml;")
           execute_on_vm(get_ip_for_instance(HADOOP_NN), "cd ~/hadoop-3.0.0-SNAPSHOT/etc/hadoop;cp yarn-site-fair.xml yarn-site.xml")
-
-          #scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/yarn-site.xml", get_ip_for_instance(HADOOP_NN)
-          #           + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/yarn-site.xml.copy")
           
 
           #scp_file_to_host("/home/routerlab/zubair-side-effects/workload/schedulars/fair-schedular.xml", get_ip_for_instance(HADOOP_NN)
@@ -109,7 +106,9 @@ def setup_hadoop(num_hadoop,
     
     scp_file_to_host(pm["mapred-site.xml"], get_ip_for_instance(HADOOP_NN)
                      + ":~/hadoop-3.0.0-SNAPSHOT/etc/hadoop/mapred-site.xml")
-
+    execute_on_vm(get_ip_for_instance(HADOOP_NN), "rm -r parse_terasort_logs.py;")
+    scp_file_to_host("parse_terasort_logs.py", get_ip_for_instance(HADOOP_NN)
+                     + ":~/parse_terasort_logs.py")
 
         
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "hdfs namenode -format")
@@ -120,6 +119,8 @@ def setup_hadoop(num_hadoop,
     time.sleep(5)
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "HADOOP_SSH_OPTS='-i  /home/ubuntu/.ssh/hadoop_rsa -l ubuntu' ~/hadoop-3.0.0-SNAPSHOT/sbin/yarn-daemons.sh start nodemanager")
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "~/hadoop-3.0.0-SNAPSHOT/sbin/./mr-jobhistory-daemon.sh start historyserver")
+    #execute_on_vm(get_ip_for_instance(HADOOP_NN), "sudo useradd user1;sudo useradd user2;sudo useradd user3;sudo useradd user4;\
+    #                                              sudo useradd user5;")
 
 
 def hadoop_load_workload(pm, exp_number, workload):
@@ -135,8 +136,9 @@ def hadoop_load_workload(pm, exp_number, workload):
        print "Loading Hadoop teraSort"
        load_command = "hadoop jar \
        /home/ubuntu/hadoop-3.0.0-SNAPSHOT/share/hadoop/mapreduce/hadoop-*examples*.jar \
-               teragen 107374182  /user/hduser/terasort-input-"
+               teragen 53687091  /user/hduser/terasort-input-"
                #53687091 = 5 GB
+               #107374182 = 10 GB
    
     elif (workload == "fb"):
 
@@ -158,6 +160,7 @@ def hadoop_load_workload(pm, exp_number, workload):
     #number of workloads    
     for i in range (1, workload_set):
         p= str(i)
+        #user="sudo -u user"+p
         load_data=load_command+p+";" 
         execute_on_vm(get_ip_for_instance(HADOOP_NN), load_data)
     print "Hadoop load terminating after time: " + str(time.time() - time_before)
@@ -196,6 +199,7 @@ def hadoop_run_workload(pm, exp_number, workload):
     
     for i in range(1, number_of_runs):
         p=str(i)
+        #user="sudu -u user"+p
         run_command=run_part1+p+run_part2+p+run_part3+p+";"        
         run_process= Process(target=interact.execute_on_vm, args=(IP, run_command))
         run_process.start()
@@ -203,6 +207,7 @@ def hadoop_run_workload(pm, exp_number, workload):
     
     for process in processList:
         process.join()
+    time.sleep(10)
 
 
 
