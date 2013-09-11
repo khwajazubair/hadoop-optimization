@@ -1,0 +1,56 @@
+2013-08-28 16:01:03,604 WARN [main] org.apache.hadoop.util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2013-08-28 16:01:03,648 ERROR [main] org.apache.hadoop.util.Shell: Failed to detect a valid hadoop home directory
+java.io.IOException: HADOOP_HOME or hadoop.home.dir are not set.
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:163)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:186)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:77)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:91)
+2013-08-28 16:01:03,808 INFO [main] org.apache.hadoop.metrics2.impl.MetricsConfig: loaded properties from hadoop-metrics2.properties
+2013-08-28 16:01:04,049 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Scheduled snapshot period at 10 second(s).
+2013-08-28 16:01:04,049 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: MapTask metrics system started
+2013-08-28 16:01:04,073 INFO [main] org.apache.hadoop.mapred.YarnChild: Executing with tokens:
+2013-08-28 16:01:04,074 INFO [main] org.apache.hadoop.mapred.YarnChild: Kind: mapreduce.job, Service: job_1377704540304_0006, Ident: (org.apache.hadoop.mapreduce.security.token.JobTokenIdentifier@3a5f5a46)
+2013-08-28 16:01:04,215 INFO [main] org.apache.hadoop.mapred.YarnChild: Sleeping for 0ms before retrying again. Got null now.
+2013-08-28 16:01:04,974 INFO [main] org.apache.hadoop.mapred.YarnChild: mapreduce.cluster.local.dir for child: /mnt/hdfs-tmp/nm-local-dir/usercache/ubuntu/appcache/application_1377704540304_0006
+2013-08-28 16:01:05,453 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id
+2013-08-28 16:01:05,453 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap
+2013-08-28 16:01:05,455 WARN [main] org.apache.hadoop.conf.Configuration: mapred.tip.id is deprecated. Instead, use mapreduce.task.id
+2013-08-28 16:01:05,456 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.partition is deprecated. Instead, use mapreduce.task.partition
+2013-08-28 16:01:05,457 WARN [main] org.apache.hadoop.conf.Configuration: mapred.local.dir is deprecated. Instead, use mapreduce.cluster.local.dir
+2013-08-28 16:01:05,458 WARN [main] org.apache.hadoop.conf.Configuration: job.local.dir is deprecated. Instead, use mapreduce.job.local.dir
+2013-08-28 16:01:05,459 WARN [main] org.apache.hadoop.conf.Configuration: mapred.cache.localFiles is deprecated. Instead, use mapreduce.job.cache.local.files
+2013-08-28 16:01:05,459 WARN [main] org.apache.hadoop.conf.Configuration: mapred.job.id is deprecated. Instead, use mapreduce.job.id
+2013-08-28 16:01:05,740 WARN [main] org.apache.hadoop.conf.Configuration: session.id is deprecated. Instead, use dfs.metrics.session-id
+2013-08-28 16:01:06,247 INFO [main] org.apache.hadoop.mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+2013-08-28 16:01:06,596 INFO [main] org.apache.hadoop.mapred.MapTask: Processing split: hdfs://hadoop-17-1:54310/user/hduser/terasort-input-4/part-m-00001 from 2550136832 length 134217668
+2013-08-28 16:01:06,616 INFO [main] org.apache.hadoop.mapred.MapTask: Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+2013-08-28 16:01:06,700 INFO [main] org.apache.hadoop.mapred.MapTask: (EQUATOR) 0 kvi 26214396(104857584)
+2013-08-28 16:01:06,701 INFO [main] org.apache.hadoop.mapred.MapTask: mapreduce.task.io.sort.mb: 100
+2013-08-28 16:01:06,701 INFO [main] org.apache.hadoop.mapred.MapTask: soft limit at 83886080
+2013-08-28 16:01:06,701 INFO [main] org.apache.hadoop.mapred.MapTask: bufstart = 0; bufvoid = 104857600
+2013-08-28 16:01:06,701 INFO [main] org.apache.hadoop.mapred.MapTask: kvstart = 26214396; length = 6553600
+2013-08-28 16:02:02,924 INFO [main] org.apache.hadoop.mapred.MapTask: Spilling map output
+2013-08-28 16:02:02,924 INFO [main] org.apache.hadoop.mapred.MapTask: bufstart = 0; bufend = 72511698; bufvoid = 104857600
+2013-08-28 16:02:03,135 INFO [main] org.apache.hadoop.mapred.MapTask: kvstart = 26214396(104857584); kvend = 23370804(93483216); length = 2843593/6553600
+2013-08-28 16:02:03,136 INFO [main] org.apache.hadoop.mapred.MapTask: (EQUATOR) 75355282 kvi 18838816(75355264)
+2013-08-28 16:02:11,941 INFO [SpillThread] org.apache.hadoop.mapred.MapTask: Finished spill 0
+2013-08-28 16:02:11,941 INFO [main] org.apache.hadoop.mapred.MapTask: (RESET) equator 75355282 kv 18838816(75355264) kvi 18127932(72511728)
+2013-08-28 16:02:20,962 ERROR [main] org.apache.hadoop.security.UserGroupInformation: PriviledgedActionException as:ubuntu (auth:SIMPLE) cause:java.io.IOException: Filesystem closed
+2013-08-28 16:02:20,964 WARN [main] org.apache.hadoop.mapred.YarnChild: Exception running child : java.io.IOException: Filesystem closed
+	at org.apache.hadoop.hdfs.DFSClient.checkOpen(DFSClient.java:540)
+	at org.apache.hadoop.hdfs.DFSInputStream.readWithStrategy(DFSInputStream.java:635)
+	at org.apache.hadoop.hdfs.DFSInputStream.read(DFSInputStream.java:693)
+	at java.io.DataInputStream.read(DataInputStream.java:149)
+	at org.apache.hadoop.examples.terasort.TeraInputFormat$TeraRecordReader.nextKeyValue(TeraInputFormat.java:298)
+	at org.apache.hadoop.mapred.MapTask$NewTrackingRecordReader.nextKeyValue(MapTask.java:527)
+	at org.apache.hadoop.mapreduce.task.MapContextImpl.nextKeyValue(MapContextImpl.java:80)
+	at org.apache.hadoop.mapreduce.lib.map.WrappedMapper$Context.nextKeyValue(WrappedMapper.java:91)
+	at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:143)
+	at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:757)
+	at org.apache.hadoop.mapred.MapTask.run(MapTask.java:339)
+	at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:158)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1489)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:153)
+

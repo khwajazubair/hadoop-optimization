@@ -176,10 +176,10 @@ def baseline_hadoop_experiment(exp_number):
                         spec = "spec-true"
 
 
-                    shutil.copytree("runs", "exp_1/hadoop_co_cl1/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
+                    shutil.copytree("runs", "exp_1/hadoop_co_cl1_v2/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
                                     +spec+"-"+str(pm["hadoop:reducer"]), exp_number, int(time.time())))
 
-                    shutil.copytree("runs_2", "exp_1/hadoop_co_cl2/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
+                    shutil.copytree("runs_2", "exp_1/hadoop_co_cl2_2/runs-%s-%s-%s" % ("co-cl-hadoop-exp-"+str(run_no)+"-"+schedule_name+"-"\
                                     +spec+"-"+str(pm["hadoop:reducer"]), exp_number+1, int(time.time())))
                     time.sleep(10)
 
@@ -195,5 +195,5 @@ def baseline_hadoop_experiment(exp_number):
 
  
 if __name__ == '__main__':
-    exp_number = 16 # 12 == all quorum, 13 == all one read=one
+    exp_number = 31 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

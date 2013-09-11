@@ -1,0 +1,51 @@
+2013-08-30 16:07:00,505 WARN [main] org.apache.hadoop.util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2013-08-30 16:07:00,554 ERROR [main] org.apache.hadoop.util.Shell: Failed to detect a valid hadoop home directory
+java.io.IOException: HADOOP_HOME or hadoop.home.dir are not set.
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:163)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:186)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:77)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:91)
+2013-08-30 16:07:00,773 INFO [main] org.apache.hadoop.metrics2.impl.MetricsConfig: loaded properties from hadoop-metrics2.properties
+2013-08-30 16:07:00,947 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Scheduled snapshot period at 10 second(s).
+2013-08-30 16:07:00,947 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: MapTask metrics system started
+2013-08-30 16:07:00,971 INFO [main] org.apache.hadoop.mapred.YarnChild: Executing with tokens:
+2013-08-30 16:07:00,971 INFO [main] org.apache.hadoop.mapred.YarnChild: Kind: mapreduce.job, Service: job_1377877617073_0007, Ident: (org.apache.hadoop.mapreduce.security.token.JobTokenIdentifier@2e71f06c)
+2013-08-30 16:07:01,101 INFO [main] org.apache.hadoop.mapred.YarnChild: Sleeping for 0ms before retrying again. Got null now.
+2013-08-30 16:07:02,036 INFO [main] org.apache.hadoop.mapred.YarnChild: mapreduce.cluster.local.dir for child: /mnt/hdfs-tmp/nm-local-dir/usercache/ubuntu/appcache/application_1377877617073_0007
+2013-08-30 16:07:02,320 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id
+2013-08-30 16:07:02,320 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap
+2013-08-30 16:07:02,321 WARN [main] org.apache.hadoop.conf.Configuration: mapred.tip.id is deprecated. Instead, use mapreduce.task.id
+2013-08-30 16:07:02,322 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.partition is deprecated. Instead, use mapreduce.task.partition
+2013-08-30 16:07:02,324 WARN [main] org.apache.hadoop.conf.Configuration: mapred.local.dir is deprecated. Instead, use mapreduce.cluster.local.dir
+2013-08-30 16:07:02,325 WARN [main] org.apache.hadoop.conf.Configuration: job.local.dir is deprecated. Instead, use mapreduce.job.local.dir
+2013-08-30 16:07:02,326 WARN [main] org.apache.hadoop.conf.Configuration: mapred.cache.localFiles is deprecated. Instead, use mapreduce.job.cache.local.files
+2013-08-30 16:07:02,326 WARN [main] org.apache.hadoop.conf.Configuration: mapred.job.id is deprecated. Instead, use mapreduce.job.id
+2013-08-30 16:07:02,690 WARN [main] org.apache.hadoop.conf.Configuration: session.id is deprecated. Instead, use dfs.metrics.session-id
+2013-08-30 16:07:03,357 INFO [main] org.apache.hadoop.mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+2013-08-30 16:07:03,832 INFO [main] org.apache.hadoop.mapred.MapTask: Processing split: hdfs://hadoop-31-1:54310/user/hduser/terasort-input-1/part-m-00001 from 2415919104 length 134217728
+2013-08-30 16:07:03,860 INFO [main] org.apache.hadoop.mapred.MapTask: Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+2013-08-30 16:07:03,982 INFO [main] org.apache.hadoop.mapred.MapTask: (EQUATOR) 0 kvi 26214396(104857584)
+2013-08-30 16:07:03,982 INFO [main] org.apache.hadoop.mapred.MapTask: mapreduce.task.io.sort.mb: 100
+2013-08-30 16:07:03,982 INFO [main] org.apache.hadoop.mapred.MapTask: soft limit at 83886080
+2013-08-30 16:07:03,982 INFO [main] org.apache.hadoop.mapred.MapTask: bufstart = 0; bufvoid = 104857600
+2013-08-30 16:07:03,983 INFO [main] org.apache.hadoop.mapred.MapTask: kvstart = 26214396; length = 6553600
+2013-08-30 16:07:09,041 ERROR [main] org.apache.hadoop.security.UserGroupInformation: PriviledgedActionException as:ubuntu (auth:SIMPLE) cause:java.io.IOException: Filesystem closed
+2013-08-30 16:07:09,042 WARN [main] org.apache.hadoop.mapred.YarnChild: Exception running child : java.io.IOException: Filesystem closed
+	at org.apache.hadoop.hdfs.DFSClient.checkOpen(DFSClient.java:540)
+	at org.apache.hadoop.hdfs.DFSInputStream.readWithStrategy(DFSInputStream.java:635)
+	at org.apache.hadoop.hdfs.DFSInputStream.read(DFSInputStream.java:693)
+	at java.io.DataInputStream.read(DataInputStream.java:149)
+	at org.apache.hadoop.examples.terasort.TeraInputFormat$TeraRecordReader.nextKeyValue(TeraInputFormat.java:298)
+	at org.apache.hadoop.mapred.MapTask$NewTrackingRecordReader.nextKeyValue(MapTask.java:527)
+	at org.apache.hadoop.mapreduce.task.MapContextImpl.nextKeyValue(MapContextImpl.java:80)
+	at org.apache.hadoop.mapreduce.lib.map.WrappedMapper$Context.nextKeyValue(WrappedMapper.java:91)
+	at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:143)
+	at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:757)
+	at org.apache.hadoop.mapred.MapTask.run(MapTask.java:339)
+	at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:158)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1489)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:153)
+
+2013-08-30 16:07:09,061 INFO [main] org.apache.hadoop.mapred.Task: Runnning cleanup for the task

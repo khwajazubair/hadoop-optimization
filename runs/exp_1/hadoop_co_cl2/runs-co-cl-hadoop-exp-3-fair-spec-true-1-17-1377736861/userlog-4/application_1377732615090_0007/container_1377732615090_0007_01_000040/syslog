@@ -1,0 +1,71 @@
+2013-08-28 23:53:28,334 WARN [main] org.apache.hadoop.util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2013-08-28 23:53:28,377 ERROR [main] org.apache.hadoop.util.Shell: Failed to detect a valid hadoop home directory
+java.io.IOException: HADOOP_HOME or hadoop.home.dir are not set.
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:163)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:186)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:77)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:91)
+2013-08-28 23:53:28,712 INFO [main] org.apache.hadoop.metrics2.impl.MetricsConfig: loaded properties from hadoop-metrics2.properties
+2013-08-28 23:53:28,860 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Scheduled snapshot period at 10 second(s).
+2013-08-28 23:53:28,860 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: MapTask metrics system started
+2013-08-28 23:53:28,880 INFO [main] org.apache.hadoop.mapred.YarnChild: Executing with tokens:
+2013-08-28 23:53:28,880 INFO [main] org.apache.hadoop.mapred.YarnChild: Kind: mapreduce.job, Service: job_1377732615090_0007, Ident: (org.apache.hadoop.mapreduce.security.token.JobTokenIdentifier@2e71f06c)
+2013-08-28 23:53:28,972 INFO [main] org.apache.hadoop.mapred.YarnChild: Sleeping for 0ms before retrying again. Got null now.
+2013-08-28 23:53:29,757 INFO [main] org.apache.hadoop.mapred.YarnChild: mapreduce.cluster.local.dir for child: /mnt/hdfs-tmp/nm-local-dir/usercache/ubuntu/appcache/application_1377732615090_0007
+2013-08-28 23:53:30,058 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id
+2013-08-28 23:53:30,059 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap
+2013-08-28 23:53:30,059 WARN [main] org.apache.hadoop.conf.Configuration: mapred.tip.id is deprecated. Instead, use mapreduce.task.id
+2013-08-28 23:53:30,060 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.partition is deprecated. Instead, use mapreduce.task.partition
+2013-08-28 23:53:30,061 WARN [main] org.apache.hadoop.conf.Configuration: mapred.local.dir is deprecated. Instead, use mapreduce.cluster.local.dir
+2013-08-28 23:53:30,062 WARN [main] org.apache.hadoop.conf.Configuration: job.local.dir is deprecated. Instead, use mapreduce.job.local.dir
+2013-08-28 23:53:30,063 WARN [main] org.apache.hadoop.conf.Configuration: mapred.cache.localFiles is deprecated. Instead, use mapreduce.job.cache.local.files
+2013-08-28 23:53:30,063 WARN [main] org.apache.hadoop.conf.Configuration: mapred.job.id is deprecated. Instead, use mapreduce.job.id
+2013-08-28 23:53:30,438 WARN [main] org.apache.hadoop.conf.Configuration: session.id is deprecated. Instead, use dfs.metrics.session-id
+2013-08-28 23:53:30,944 INFO [main] org.apache.hadoop.mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+2013-08-28 23:53:31,402 INFO [main] org.apache.hadoop.mapred.MapTask: Processing split: hdfs://hadoop-17-1:54310/user/hduser/terasort-input-4/part-m-00001 from 0 length 134217728
+2013-08-28 23:53:31,423 INFO [main] org.apache.hadoop.mapred.MapTask: Map output collector class = org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+2013-08-28 23:53:31,514 INFO [main] org.apache.hadoop.mapred.MapTask: (EQUATOR) 0 kvi 26214396(104857584)
+2013-08-28 23:53:31,514 INFO [main] org.apache.hadoop.mapred.MapTask: mapreduce.task.io.sort.mb: 100
+2013-08-28 23:53:31,514 INFO [main] org.apache.hadoop.mapred.MapTask: soft limit at 83886080
+2013-08-28 23:53:31,515 INFO [main] org.apache.hadoop.mapred.MapTask: bufstart = 0; bufvoid = 104857600
+2013-08-28 23:53:31,515 INFO [main] org.apache.hadoop.mapred.MapTask: kvstart = 26214396; length = 6553600
+2013-08-28 23:56:27,413 INFO [main] org.apache.hadoop.mapred.MapTask: Spilling map output
+2013-08-28 23:56:27,413 INFO [main] org.apache.hadoop.mapred.MapTask: bufstart = 0; bufend = 72511698; bufvoid = 104857600
+2013-08-28 23:56:27,413 INFO [main] org.apache.hadoop.mapred.MapTask: kvstart = 26214396(104857584); kvend = 23370804(93483216); length = 2843593/6553600
+2013-08-28 23:56:27,414 INFO [main] org.apache.hadoop.mapred.MapTask: (EQUATOR) 75355282 kvi 18838816(75355264)
+2013-08-28 23:56:32,136 INFO [SpillThread] org.apache.hadoop.mapred.MapTask: Finished spill 0
+2013-08-28 23:56:32,412 INFO [main] org.apache.hadoop.mapred.MapTask: (RESET) equator 75355282 kv 18838816(75355264) kvi 18741160(74964640)
+2013-08-28 23:59:13,314 WARN [main] org.apache.hadoop.hdfs.DFSClient: Failed to connect to /192.168.100.26:50010 for block, add to deadNodes and continue. java.net.NoRouteToHostException: No route to host
+java.net.NoRouteToHostException: No route to host
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:692)
+	at org.apache.hadoop.net.SocketIOWithTimeout.connect(SocketIOWithTimeout.java:206)
+	at org.apache.hadoop.net.NetUtils.connect(NetUtils.java:526)
+	at org.apache.hadoop.hdfs.DFSInputStream.getBlockReader(DFSInputStream.java:931)
+	at org.apache.hadoop.hdfs.DFSInputStream.blockSeekTo(DFSInputStream.java:455)
+	at org.apache.hadoop.hdfs.DFSInputStream.seekToBlockSource(DFSInputStream.java:1124)
+	at org.apache.hadoop.hdfs.DFSInputStream.readBuffer(DFSInputStream.java:622)
+	at org.apache.hadoop.hdfs.DFSInputStream.readWithStrategy(DFSInputStream.java:652)
+	at org.apache.hadoop.hdfs.DFSInputStream.read(DFSInputStream.java:693)
+	at java.io.DataInputStream.read(DataInputStream.java:149)
+	at org.apache.hadoop.examples.terasort.TeraInputFormat$TeraRecordReader.nextKeyValue(TeraInputFormat.java:298)
+	at org.apache.hadoop.mapred.MapTask$NewTrackingRecordReader.nextKeyValue(MapTask.java:527)
+	at org.apache.hadoop.mapreduce.task.MapContextImpl.nextKeyValue(MapContextImpl.java:80)
+	at org.apache.hadoop.mapreduce.lib.map.WrappedMapper$Context.nextKeyValue(WrappedMapper.java:91)
+	at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:143)
+	at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:757)
+	at org.apache.hadoop.mapred.MapTask.run(MapTask.java:339)
+	at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:158)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1489)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:153)
+2013-08-28 23:59:13,320 INFO [main] org.apache.hadoop.hdfs.DFSClient: Successfully connected to /192.168.100.18:50010 for BP-760020648-192.168.100.39-1377732590864:blk_5873127418578113285_1213
+2013-08-28 23:59:14,197 INFO [main] org.apache.hadoop.mapred.MapTask: Starting flush of map output
+2013-08-28 23:59:14,197 INFO [main] org.apache.hadoop.mapred.MapTask: Spilling map output
+2013-08-28 23:59:14,197 INFO [main] org.apache.hadoop.mapred.MapTask: bufstart = 75355282; bufend = 34888140; bufvoid = 104857600
+2013-08-28 23:59:14,197 INFO [main] org.apache.hadoop.mapred.MapTask: kvstart = 18838816(75355264); kvend = 16313704(65254816); length = 2525113/6553600
+2013-08-28 23:59:16,903 INFO [main] org.apache.hadoop.mapred.MapTask: Finished spill 1
+2013-08-28 23:59:16,932 INFO [main] org.apache.hadoop.mapred.Merger: Merging 2 sorted segments
+2013-08-28 23:59:16,941 INFO [main] org.apache.hadoop.mapred.Merger: Down to the last merge-pass, with 2 segments left of total size: 139586498 bytes
+2013-08-28 23:59:19,863 INFO [main] org.apache.hadoop.mapred.Task: Task:attempt_1377732615090_0007_m_000038_0 is done. And is in the process of committing

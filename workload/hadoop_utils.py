@@ -119,7 +119,7 @@ def setup_hadoop(num_hadoop,
     time.sleep(5)
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "HADOOP_SSH_OPTS='-i  /home/ubuntu/.ssh/hadoop_rsa -l ubuntu' ~/hadoop-3.0.0-SNAPSHOT/sbin/yarn-daemons.sh start nodemanager")
     execute_on_vm(get_ip_for_instance(HADOOP_NN), "~/hadoop-3.0.0-SNAPSHOT/sbin/./mr-jobhistory-daemon.sh start historyserver")
-    #execute_on_vm(get_ip_for_instance(HADOOP_NN), "sudo useradd user1;sudo useradd user2;sudo useradd user3;sudo useradd user4;\
+   # execute_on_vm(get_ip_for_instance(HADOOP_NN), "sudo useradd user1;sudo useradd user2;sudo useradd user3;sudo useradd user4;\
     #                                              sudo useradd user5;")
 
 
@@ -160,7 +160,7 @@ def hadoop_load_workload(pm, exp_number, workload):
     #number of workloads    
     for i in range (1, workload_set):
         p= str(i)
-        #user="sudo -u user"+p
+        #user="sudo -u user"+p+"  "
         load_data=load_command+p+";" 
         execute_on_vm(get_ip_for_instance(HADOOP_NN), load_data)
     print "Hadoop load terminating after time: " + str(time.time() - time_before)
@@ -199,7 +199,7 @@ def hadoop_run_workload(pm, exp_number, workload):
     
     for i in range(1, number_of_runs):
         p=str(i)
-        #user="sudu -u user"+p
+        #user="sudu -u user"+p+"  "
         run_command=run_part1+p+run_part2+p+run_part3+p+";"        
         run_process= Process(target=interact.execute_on_vm, args=(IP, run_command))
         run_process.start()

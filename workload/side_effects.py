@@ -36,7 +36,7 @@ def run_hadoop_baseline(pm, nodes_used, workload, schedule):
     hadoopLoadProcess = Process(target=hadoop_utils.hadoop_load_workload, args=(pm, pm["exp_number"], workload ))
     hadoopLoadProcess.start()
     hadoopLoadProcess.join()
-    #time.sleep(30)
+    time.sleep(5)
 
     ####### RUN WORKLOAD ##########
     run_mpstat(nodes_used, pm["exp_number"])
@@ -87,10 +87,11 @@ def baseline_hadoop_experiment(exp_number):
 
     workloads = ['terasort']
     load = "terasort"
-    schedular = ['capacity','fair']
+    #schedular = ['capacity','fair']
+    schedular = ['capacity']
     for schedule in schedular:     
     	    for hadoop_spec in ["mapred-site-spec-true.xml","mapred-site-spec-false.xml"]:
-                for run_no in range(1,11):
+                for run_no in range(1,6):
 
                     try:
                         shutil.rmtree("runs")
@@ -102,7 +103,7 @@ def baseline_hadoop_experiment(exp_number):
                     ################# One-to-One #############
                     pm["hadoop:reducer"]  = reducer
                     pm["hadoop:schedular"]  = schedule
-                    pm["mapred-site.xml"] = hadoop_spec
+                    pm["mapred-site.xml"] = "mapred-site-spec-true.xml"
                     pm["hadoop:num_hadoop"] = len(NODE_LIST)
                     pm["hadoop:placement"] = STRATEGIES["round-robin"](NODE_LIST, len(NODE_LIST))
                     run_hadoop_baseline(pm, NODE_LIST, load, schedule)
@@ -118,8 +119,11 @@ def baseline_hadoop_experiment(exp_number):
                         spec = "spec-true"
 
 
-                    shutil.copytree("runs", "exp_5/hadoop_bs_5/runs-%s-%s-%s" % ("bs-experiment-"+schedule_name+"-"\
+                    shutil.copytree("runs", "exp_x/hadoop_bs_3/runs-%s-%s-%s" % ("bs-exp-"+schedule_name+"-"\
                                     +spec+"-"+str(run_no)+"-"+str(reducer), pm["exp_number"], int(time.time())))
+                    #shutil.copytree("runs", "exp_x/hadoop_bs_3/runs-%s-%s-%s" % ("bs-exp-"+schedule_name+"-"\
+                    #                +spec+"-"+str(reducer), pm["exp_number"], int(time.time())))
+
 
                     shutil.rmtree("runs")
                     delete_hadoop_vms(pm["hadoop:num_hadoop"],
@@ -129,5 +133,5 @@ def baseline_hadoop_experiment(exp_number):
 
  
 if __name__ == '__main__':
-    exp_number = 1001 # 12 == all quorum, 13 == all one read=one
+    exp_number = 300 # 12 == all quorum, 13 == all one read=one
     baseline_hadoop_experiment(exp_number)

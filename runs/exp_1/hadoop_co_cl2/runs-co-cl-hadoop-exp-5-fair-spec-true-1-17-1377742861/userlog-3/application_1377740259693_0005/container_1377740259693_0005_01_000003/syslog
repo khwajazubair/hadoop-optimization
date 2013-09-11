@@ -1,0 +1,48 @@
+2013-08-29 01:51:52,311 WARN [main] org.apache.hadoop.util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2013-08-29 01:51:52,360 ERROR [main] org.apache.hadoop.util.Shell: Failed to detect a valid hadoop home directory
+java.io.IOException: HADOOP_HOME or hadoop.home.dir are not set.
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:163)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:186)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:77)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:91)
+2013-08-29 01:51:52,530 INFO [main] org.apache.hadoop.metrics2.impl.MetricsConfig: loaded properties from hadoop-metrics2.properties
+2013-08-29 01:51:52,656 ERROR [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Error getting localhost name. Using 'localhost'...
+java.net.UnknownHostException: hadoop-17-3: hadoop-17-3
+	at java.net.InetAddress.getLocalHost(InetAddress.java:1438)
+	at org.apache.hadoop.metrics2.impl.MetricsSystemImpl.getHostname(MetricsSystemImpl.java:510)
+	at org.apache.hadoop.metrics2.impl.MetricsSystemImpl.configureSystem(MetricsSystemImpl.java:450)
+	at org.apache.hadoop.metrics2.impl.MetricsSystemImpl.configure(MetricsSystemImpl.java:446)
+	at org.apache.hadoop.metrics2.impl.MetricsSystemImpl.start(MetricsSystemImpl.java:180)
+	at org.apache.hadoop.metrics2.impl.MetricsSystemImpl.init(MetricsSystemImpl.java:156)
+	at org.apache.hadoop.metrics2.lib.DefaultMetricsSystem.init(DefaultMetricsSystem.java:62)
+	at org.apache.hadoop.metrics2.lib.DefaultMetricsSystem.initialize(DefaultMetricsSystem.java:58)
+	at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:91)
+Caused by: java.net.UnknownHostException: hadoop-17-3
+	at java.net.Inet4AddressImpl.lookupAllHostAddr(Native Method)
+	at java.net.InetAddress$1.lookupAllHostAddr(InetAddress.java:866)
+	at java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1258)
+	at java.net.InetAddress.getLocalHost(InetAddress.java:1434)
+	... 8 more
+2013-08-29 01:51:52,659 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Scheduled snapshot period at 10 second(s).
+2013-08-29 01:51:52,659 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: MapTask metrics system started
+2013-08-29 01:51:52,681 INFO [main] org.apache.hadoop.mapred.YarnChild: Executing with tokens:
+2013-08-29 01:51:52,681 INFO [main] org.apache.hadoop.mapred.YarnChild: Kind: mapreduce.job, Service: job_1377740259693_0005, Ident: (org.apache.hadoop.mapreduce.security.token.JobTokenIdentifier@60ff5465)
+2013-08-29 01:51:52,809 INFO [main] org.apache.hadoop.mapred.YarnChild: Sleeping for 0ms before retrying again. Got null now.
+2013-08-29 01:51:53,486 INFO [main] org.apache.hadoop.mapred.YarnChild: mapreduce.cluster.local.dir for child: /mnt/hdfs-tmp/nm-local-dir/usercache/ubuntu/appcache/application_1377740259693_0005
+2013-08-29 01:51:53,802 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.id is deprecated. Instead, use mapreduce.task.attempt.id
+2013-08-29 01:51:53,802 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.is.map is deprecated. Instead, use mapreduce.task.ismap
+2013-08-29 01:51:53,803 WARN [main] org.apache.hadoop.conf.Configuration: mapred.tip.id is deprecated. Instead, use mapreduce.task.id
+2013-08-29 01:51:53,804 WARN [main] org.apache.hadoop.conf.Configuration: mapred.task.partition is deprecated. Instead, use mapreduce.task.partition
+2013-08-29 01:51:53,806 WARN [main] org.apache.hadoop.conf.Configuration: mapred.local.dir is deprecated. Instead, use mapreduce.cluster.local.dir
+2013-08-29 01:51:53,806 WARN [main] org.apache.hadoop.conf.Configuration: job.local.dir is deprecated. Instead, use mapreduce.job.local.dir
+2013-08-29 01:51:53,808 WARN [main] org.apache.hadoop.conf.Configuration: mapred.job.id is deprecated. Instead, use mapreduce.job.id
+2013-08-29 01:51:54,100 WARN [main] org.apache.hadoop.conf.Configuration: session.id is deprecated. Instead, use dfs.metrics.session-id
+2013-08-29 01:51:54,416 INFO [main] org.apache.hadoop.mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+2013-08-29 01:51:54,714 INFO [main] org.apache.hadoop.mapred.MapTask: Processing split: org.apache.hadoop.examples.terasort.TeraGen$RangeInputFormat$RangeInputSplit@48860e29
+2013-08-29 01:54:49,477 INFO [main] org.apache.hadoop.mapred.Task: Task:attempt_1377740259693_0005_m_000001_0 is done. And is in the process of committing
+2013-08-29 01:54:49,527 INFO [main] org.apache.hadoop.mapred.Task: Task attempt_1377740259693_0005_m_000001_0 is allowed to commit now
+2013-08-29 01:54:49,544 INFO [main] org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter: Saved output of task 'attempt_1377740259693_0005_m_000001_0' to hdfs://hadoop-17-1:54310/user/hduser/terasort-input-5/_temporary/1/task_1377740259693_0005_m_000001
+2013-08-29 01:54:49,577 INFO [main] org.apache.hadoop.mapred.Task: Task 'attempt_1377740259693_0005_m_000001_0' done.
+2013-08-29 01:54:49,579 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Stopping MapTask metrics system...
+2013-08-29 01:54:49,580 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: MapTask metrics system stopped.
+2013-08-29 01:54:49,580 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: MapTask metrics system shutdown complete.
